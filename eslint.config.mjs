@@ -10,7 +10,28 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  {
+    ignores: ["src/hooks/**", "src/utils/**"],
+  },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    rules: {
+      "@next/next/no-img-element": "off",
+      "jsx-a11y/alt-text": [
+        "error",
+        {
+          elements: ["img"],
+          img: ["Image", "OptimizedImage"],
+        },
+      ],
+      "react/jsx-no-target-blank": "error",
+      "react/no-unescaped-entities": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_" },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;
