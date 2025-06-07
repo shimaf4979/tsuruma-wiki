@@ -61,9 +61,10 @@ export function Sidebar() {
   };
 
   const menuItems = [
+    { icon: Users, label: "鶴舞こあらとは", href: "/about" },
     { icon: BookOpen, label: "全ページ", href: "/pages" },
-    { icon: TrendingUp, label: "人気記事", href: "/pages?sort=popular" },
-    { icon: Users, label: "編集者一覧", href: "/contributors" },
+    { icon: TrendingUp, label: "人気ページ", href: "/pages?sort=popular" },
+    // { icon: Users, label: "編集者一覧", href: "/contributors" },
     { icon: MessageCircle, label: "お問い合わせ", href: "/contact" },
   ];
 

@@ -1,17 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ChevronRight,
-  BookOpen,
-  TrendingUp,
-  Users,
-  Clock,
-  ArrowRight,
-} from "lucide-react";
+import { ChevronRight, BookOpen } from "lucide-react";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
-import { wikiAPI } from "../lib/api";
 import { useUIStore } from "../store";
 
 export default function HomePage() {
@@ -359,291 +350,52 @@ export default function HomePage() {
 }
 
 function HomeContent() {
-  // 人気記事を取得
-  const { data: popularPages } = useQuery({
-    queryKey: ["popularPages"],
-    queryFn: () => wikiAPI.getPopularPages(6),
-  });
-
-  // 最新記事を取得
-  const { data: recentPages } = useQuery({
-    queryKey: ["recentPages"],
-    queryFn: () => wikiAPI.getPages({ limit: 6, offset: 0 }),
-  });
-
   return (
     <motion.div
       key='home'
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.1 }}
       className='min-h-screen bg-white'
     >
       {/* ヒーローセクション */}
-      <section className='relative bg-white pt-8 pb-16'>
+      <section className='relative bg-gradient-to-b from-white to-gray-50 pt-16 pb-24'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.1, delay: 0.2 }}
               className='mb-8'
             >
-              <h1 className='text-4xl md:text-6xl font-bold text-koala-900 mb-4'>
-                鶴舞こあら Wiki
-              </h1>
-              <p className='text-xl md:text-2xl text-koala-600 mb-8'>
+              {/* <h1 className='text-4xl md:text-6xl font-bold text-koala-900 mb-6 tracking-tight'>
+                鶴舞こあら 非公式Wiki
+              </h1> */}
+              <img
+                src='/tsuruma.webp'
+                alt='鶴舞こあら'
+                className='h-100 block mx-auto rounded-lg mb-8 transform hover:scale-105 transition-transform duration-300'
+              />
+              <p className='text-xl md:text-2xl text-koala-600 mb-10 font-medium'>
                 みんなで作る鶴舞こあらの情報サイト
               </p>
               <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-                <Link href='/pages' className='btn-primary text-lg px-8 py-3'>
+                <Link
+                  href='/pages'
+                  className='btn-primary text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center bg-koala-600 hover:bg-koala-700 text-white'
+                >
                   <BookOpen className='w-5 h-5 mr-2' />
                   記事を読む
                 </Link>
-                <Link href='/editor' className='btn-outline text-lg px-8 py-3'>
+                <Link
+                  href='/editor'
+                  className='btn-outline text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border-2 border-koala-600 text-koala-600 hover:bg-koala-50'
+                >
                   記事を作成
                 </Link>
               </div>
             </motion.div>
           </div>
-        </div>
-      </section>
-
-      {/* 統計セクション */}
-      <section className='py-12 bg-koala-50'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className='text-center'
-            >
-              <div className='bg-white rounded-lg p-6 shadow-sm'>
-                <BookOpen className='w-8 h-8 text-primary-600 mx-auto mb-4' />
-                <h3 className='text-2xl font-bold text-koala-900'>
-                  {recentPages?.total || 0}
-                </h3>
-                <p className='text-koala-600'>記事数</p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className='text-center'
-            >
-              <div className='bg-white rounded-lg p-6 shadow-sm'>
-                <Users className='w-8 h-8 text-primary-600 mx-auto mb-4' />
-                <h3 className='text-2xl font-bold text-koala-900'>10+</h3>
-                <p className='text-koala-600'>編集者</p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className='text-center'
-            >
-              <div className='bg-white rounded-lg p-6 shadow-sm'>
-                <TrendingUp className='w-8 h-8 text-primary-600 mx-auto mb-4' />
-                <h3 className='text-2xl font-bold text-koala-900'>1000+</h3>
-                <p className='text-koala-600'>総閲覧数</p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* 人気記事セクション */}
-      <section className='py-16'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className='text-center mb-12'
-          >
-            <h2 className='text-3xl font-bold text-koala-900 mb-4'>人気記事</h2>
-            <p className='text-koala-600'>
-              多くの人に読まれている記事をチェック
-            </p>
-          </motion.div>
-
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8'>
-            {popularPages?.map((page, index) => (
-              <motion.div
-                key={page.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-              >
-                <Link href={`/wiki/${page.id}`} className='block'>
-                  <div className='card hover:shadow-md transition-shadow h-full'>
-                    <div className='flex items-start space-x-3 mb-3'>
-                      <span className='flex-shrink-0 w-6 h-6 bg-primary-100 text-primary-600 rounded text-sm font-medium flex items-center justify-center'>
-                        {index + 1}
-                      </span>
-                      <h3 className='text-lg font-semibold text-koala-900 line-clamp-2'>
-                        {page.title}
-                      </h3>
-                    </div>
-
-                    <div className='flex items-center justify-between mt-4'>
-                      <div className='flex items-center space-x-2'>
-                        {page.author.avatarUrl ? (
-                          <img
-                            src={page.author.avatarUrl}
-                            alt={page.author.nickname}
-                            className='w-6 h-6 rounded-full object-cover'
-                          />
-                        ) : (
-                          <div className='w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center'>
-                            <span className='text-xs text-primary-600 font-medium'>
-                              {page.author.nickname.charAt(0)}
-                            </span>
-                          </div>
-                        )}
-                        <span className='text-sm text-koala-600'>
-                          {page.author.nickname}
-                        </span>
-                      </div>
-                      <span className='text-sm text-koala-500'>
-                        {page.viewCount}回閲覧
-                      </span>
-                    </div>
-
-                    {page.tags.length > 0 && (
-                      <div className='flex flex-wrap gap-1 mt-3'>
-                        {page.tags.slice(0, 3).map((tag) => (
-                          <span key={tag} className='badge-secondary text-xs'>
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className='text-center'>
-            <Link href='/pages?sort=popular' className='btn-outline'>
-              人気記事をもっと見る
-              <ArrowRight className='w-4 h-4 ml-2' />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 最新記事セクション */}
-      <section className='py-16 bg-koala-50'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            className='text-center mb-12'
-          >
-            <h2 className='text-3xl font-bold text-koala-900 mb-4'>最新記事</h2>
-            <p className='text-koala-600'>新しく投稿された記事をチェック</p>
-          </motion.div>
-
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8'>
-            {recentPages?.pages?.slice(0, 6).map((page, index) => (
-              <motion.div
-                key={page.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.1 + index * 0.1 }}
-              >
-                <Link href={`/wiki/${page.id}`} className='block'>
-                  <div className='card hover:shadow-md transition-shadow h-full'>
-                    <div className='flex items-start space-x-2 mb-2'>
-                      <Clock className='w-4 h-4 text-koala-400 mt-1 flex-shrink-0' />
-                      <span className='text-sm text-koala-500'>
-                        {new Date(page.createdAt).toLocaleDateString("ja-JP")}
-                      </span>
-                    </div>
-
-                    <h3 className='text-lg font-semibold text-koala-900 mb-3 line-clamp-2'>
-                      {page.title}
-                    </h3>
-
-                    <div className='flex items-center justify-between mt-4'>
-                      <div className='flex items-center space-x-2'>
-                        {page.author.avatarUrl ? (
-                          <img
-                            src={page.author.avatarUrl}
-                            alt={page.author.nickname}
-                            className='w-6 h-6 rounded-full object-cover'
-                          />
-                        ) : (
-                          <div className='w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center'>
-                            <span className='text-xs text-primary-600 font-medium'>
-                              {page.author.nickname.charAt(0)}
-                            </span>
-                          </div>
-                        )}
-                        <span className='text-sm text-koala-600'>
-                          {page.author.nickname}
-                        </span>
-                      </div>
-                      <span className='text-sm text-koala-500'>
-                        {page.viewCount}回閲覧
-                      </span>
-                    </div>
-
-                    {page.tags.length > 0 && (
-                      <div className='flex flex-wrap gap-1 mt-3'>
-                        {page.tags.slice(0, 3).map((tag) => (
-                          <span key={tag} className='badge-secondary text-xs'>
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className='text-center'>
-            <Link href='/pages' className='btn-outline'>
-              最新記事をもっと見る
-              <ArrowRight className='w-4 h-4 ml-2' />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* CTAセクション */}
-      <section className='py-16'>
-        <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.4 }}
-          >
-            <h2 className='text-3xl font-bold text-koala-900 mb-4'>
-              あなたも参加しませんか？
-            </h2>
-            <p className='text-lg text-koala-600 mb-8'>
-              鶴舞こあらに関する記事を投稿して、みんなで情報を共有しましょう
-            </p>
-            <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-              <Link href='/register' className='btn-primary text-lg px-8 py-3'>
-                今すぐ参加
-              </Link>
-              <Link href='/about' className='btn-outline text-lg px-8 py-3'>
-                詳しく見る
-              </Link>
-            </div>
-          </motion.div>
         </div>
       </section>
     </motion.div>

@@ -44,7 +44,7 @@ export function Navbar() {
   };
 
   const navItems = [
-    { href: "/about", label: "こあらについて" },
+    { href: "/about", label: "鶴舞こあらとは" },
     { href: "/pages", label: "ページ一覧" },
     { href: "/editor", label: "新規作成", icon: PlusCircle },
   ];
