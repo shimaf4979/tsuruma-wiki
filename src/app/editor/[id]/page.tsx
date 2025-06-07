@@ -2,18 +2,6 @@ import { wikiAPI } from "../../../lib/api";
 import { EditPageClient } from "./EditPageClient";
 import { Metadata } from "next";
 
-export async function generateStaticParams() {
-  try {
-    const { pages } = await wikiAPI.getPages({ limit: 1000 });
-    return pages.map((page) => ({
-      id: page.id.toString(),
-    }));
-  } catch (error) {
-    console.error("Failed to generate static params for editor:", error);
-    return [];
-  }
-}
-
 type PageProps = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

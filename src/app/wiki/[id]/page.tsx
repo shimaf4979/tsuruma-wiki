@@ -4,21 +4,6 @@ import { Metadata } from "next";
 
 export const revalidate = 3600; // 1時間ごとに再生成
 
-export async function generateStaticParams() {
-  try {
-    const { pages } = await wikiAPI.getPages({
-      status: "published",
-      limit: 1000,
-    });
-    return pages.map((page) => ({
-      id: page.id.toString(),
-    }));
-  } catch (error) {
-    console.error("Failed to generate static params:", error);
-    return [];
-  }
-}
-
 type PageProps = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

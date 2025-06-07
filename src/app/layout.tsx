@@ -25,8 +25,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/home.png",
-        width: 1200,
-        height: 630,
+        width: 731,
+        height: 213,
         alt: "鶴舞こあらWiki",
       },
     ],
