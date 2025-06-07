@@ -23,6 +23,7 @@ export function Navbar() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   // スクロール検知
   useEffect(() => {
@@ -112,14 +113,31 @@ export function Navbar() {
               {isAuthenticated ? (
                 <>
                   {/* 通知ボタン（将来実装） */}
-                  <button
-                    className='p-2 rounded-lg text-koala-600 hover:bg-koala-100 transition-colors relative'
-                    aria-label='通知'
-                  >
-                    <Bell className='w-5 h-5' />
-                    {/* 未読通知があれば表示 */}
-                    {/* <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span> */}
-                  </button>
+                  <div className='relative'>
+                    <button
+                      onClick={() => setShowNotification(!showNotification)}
+                      className='p-2 rounded-lg text-koala-600 hover:bg-koala-100 transition-colors relative'
+                      aria-label='通知'
+                    >
+                      <Bell className='w-5 h-5' />
+                    </button>
+
+                    <AnimatePresence>
+                      {showNotification && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.2 }}
+                          className='absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-koala-200 overflow-hidden z-50'
+                        >
+                          <div className='p-4 text-center text-koala-600'>
+                            お知らせはありません
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
 
                   {/* ユーザーメニュー */}
                   <div className='relative'>
@@ -146,47 +164,84 @@ export function Navbar() {
                     <AnimatePresence>
                       {showUserMenu && (
                         <motion.div
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.95 }}
-                          className='absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-koala-200 py-1 z-50'
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.2 }}
+                          className='absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-koala-200 overflow-hidden z-50'
                         >
-                          <Link
-                            href='/profile'
-                            className='flex items-center space-x-2 px-4 py-2 text-sm text-koala-700 hover:bg-koala-50'
-                            onClick={() => setShowUserMenu(false)}
-                          >
-                            <User className='w-4 h-4' />
-                            <span>プロフィール</span>
-                          </Link>
+                          {/* ユーザー情報ヘッダー */}
+                          <div className='p-4 bg-primary-50 border-b border-primary-100'>
+                            <div className='flex items-center space-x-3'>
+                              {user?.avatarUrl ? (
+                                <img
+                                  src={user.avatarUrl}
+                                  alt={user.nickname}
+                                  className='w-12 h-12 rounded-full object-cover ring-2 ring-white'
+                                />
+                              ) : (
+                                <div className='w-12 h-12 rounded-full bg-primary-50 flex items-center justify-center ring-2 ring-white'>
+                                  <User className='w-6 h-6 text-black' />
+                                </div>
+                              )}
+                              <div>
+                                <p className='font-medium text-black'>
+                                  {user?.nickname}
+                                </p>
+                                <p className='text-sm text-gray-700'>
+                                  {user?.email}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
 
-                          <Link
-                            href='/settings'
-                            className='flex items-center space-x-2 px-4 py-2 text-sm text-koala-700 hover:bg-koala-50'
-                            onClick={() => setShowUserMenu(false)}
-                          >
-                            <Settings className='w-4 h-4' />
-                            <span>設定</span>
-                          </Link>
-
-                          {user?.role === "admin" && (
+                          {/* メニュー項目 */}
+                          <div className='py-2'>
                             <Link
-                              href='/admin'
-                              className='flex items-center space-x-2 px-4 py-2 text-sm text-koala-700 hover:bg-koala-50'
+                              href='/profile'
+                              className='flex items-center space-x-3 px-4 py-3 text-sm text-black hover:bg-primary-50 transition-colors group'
                               onClick={() => setShowUserMenu(false)}
                             >
-                              <Settings className='w-4 h-4' />
-                              <span>管理者設定</span>
+                              <div className='p-2 rounded-lg bg-primary-50 group-hover:bg-primary-100 transition-colors'>
+                                <User className='w-4 h-4 text-black' />
+                              </div>
+                              <span>プロフィール</span>
                             </Link>
-                          )}
 
-                          <div className='border-t border-koala-200 my-1'></div>
+                            <Link
+                              href='/settings'
+                              className='flex items-center space-x-3 px-4 py-3 text-sm text-black hover:bg-primary-50 transition-colors group'
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <div className='p-2 rounded-lg bg-primary-50 group-hover:bg-primary-100 transition-colors'>
+                                <Settings className='w-4 h-4 text-black' />
+                              </div>
+                              <span>設定</span>
+                            </Link>
+
+                            {user?.role === "admin" && (
+                              <Link
+                                href='/admin'
+                                className='flex items-center space-x-3 px-4 py-3 text-sm text-black hover:bg-primary-50 transition-colors group'
+                                onClick={() => setShowUserMenu(false)}
+                              >
+                                <div className='p-2 rounded-lg bg-primary-50 group-hover:bg-primary-100 transition-colors'>
+                                  <Settings className='w-4 h-4 text-black' />
+                                </div>
+                                <span>管理者設定</span>
+                              </Link>
+                            )}
+                          </div>
+
+                          <div className='border-t border-primary-100'></div>
 
                           <button
                             onClick={handleLogout}
-                            className='flex items-center space-x-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50'
+                            className='flex items-center space-x-3 w-full px-4 py-3 text-sm text-black hover:bg-primary-50 transition-colors group'
                           >
-                            <LogOut className='w-4 h-4' />
+                            <div className='p-2 rounded-lg bg-primary-50 group-hover:bg-primary-100 transition-colors'>
+                              <LogOut className='w-4 h-4 text-black' />
+                            </div>
                             <span>ログアウト</span>
                           </button>
                         </motion.div>
@@ -202,12 +257,12 @@ export function Navbar() {
                   >
                     ログイン
                   </Link>
-                  <Link
+                  {/* <Link
                     href='/register'
                     className='px-3 py-2 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 transition-colors'
                   >
                     登録
-                  </Link>
+                  </Link> */}
                 </div>
               )}
             </div>
@@ -226,6 +281,14 @@ export function Navbar() {
         <div
           className='fixed inset-0 z-40'
           onClick={() => setShowUserMenu(false)}
+        />
+      )}
+
+      {/* 通知メニュー外クリックで通知を閉じる */}
+      {showNotification && (
+        <div
+          className='fixed inset-0 z-40'
+          onClick={() => setShowNotification(false)}
         />
       )}
     </>

@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { Mail } from "lucide-react";
 
 export default function ContactPage() {
@@ -53,24 +52,27 @@ export default function ContactPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.1 }}
           className='text-center mb-8'
         >
           <h1 className='text-3xl font-bold text-koala-900 mb-4'>
             お問い合わせ
           </h1>
-          <p className='text-koala-600'>
+          {/* <p className='text-koala-600'>
             ご質問やご要望がございましたら、お気軽にお問い合わせください
-          </p>
+          </p> */}
         </motion.div>
 
         {/* フォーム */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.1, delay: 0.01 }}
         >
-          <form onSubmit={handleSubmit} className='card space-y-6'>
+          <form
+            onSubmit={handleSubmit}
+            className='bg-white shadow-lg rounded-lg p-6 space-y-6'
+          >
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
               <div>
                 <label
@@ -86,7 +88,7 @@ export default function ContactPage() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className='input w-full'
+                  className='w-full px-4 py-2 border border-koala-300 rounded-md focus:ring-2 focus:ring-koala-500 focus:border-transparent transition-all duration-200'
                   placeholder='山田太郎'
                 />
               </div>
@@ -105,7 +107,7 @@ export default function ContactPage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className='input w-full'
+                  className='w-full px-4 py-2 border border-koala-300 rounded-md focus:ring-2 focus:ring-koala-500 focus:border-transparent transition-all duration-200'
                   placeholder='example@email.com'
                 />
               </div>
@@ -124,7 +126,7 @@ export default function ContactPage() {
                 required
                 value={formData.subject}
                 onChange={handleChange}
-                className='input w-full'
+                className='w-full px-4 py-2 border border-koala-300 rounded-md focus:ring-2 focus:ring-koala-500 focus:border-transparent transition-all duration-200'
               >
                 <option value=''>選択してください</option>
                 {subjects.map((subject) => (
@@ -149,7 +151,7 @@ export default function ContactPage() {
                 rows={6}
                 value={formData.message}
                 onChange={handleChange}
-                className='textarea w-full'
+                className='w-full px-4 py-2 border border-koala-300 rounded-md focus:ring-2 focus:ring-koala-500 focus:border-transparent transition-all duration-200 resize-none'
                 placeholder='お問い合わせ内容をできるだけ詳しくご記入ください'
                 maxLength={2000}
               />
@@ -158,7 +160,7 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <div className='bg-koala-50 p-4 rounded-lg'>
+            <div className='bg-koala-50 p-4 rounded-lg border border-koala-200'>
               <p className='text-sm text-koala-600'>
                 <strong>注意事項:</strong>
                 <br />
@@ -173,7 +175,7 @@ export default function ContactPage() {
               <button
                 type='submit'
                 disabled={isSubmitting}
-                className='btn-primary w-full md:w-auto px-8 py-3'
+                className='bg-koala-600 text-white px-8 py-3 rounded-md hover:bg-koala-700 focus:outline-none focus:ring-2 focus:ring-koala-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed'
               >
                 {isSubmitting ? (
                   <div className='flex items-center justify-center'>
@@ -182,7 +184,7 @@ export default function ContactPage() {
                   </div>
                 ) : (
                   <>
-                    <Mail className='w-5 h-5 mr-2' />
+                    <Mail className='w-5 h-5 mr-2 inline-block' />
                     送信する
                   </>
                 )}
@@ -195,19 +197,19 @@ export default function ContactPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.1, delay: 0.01 }}
           className='mt-8 text-center'
         >
-          <p className='text-sm text-koala-500'>
+          {/* <p className='text-sm text-koala-500'>
             よくある質問については、
             <Link
               href='/about'
-              className='text-primary-600 hover:text-primary-700 underline'
+              className='text-koala-600 hover:text-koala-700 underline transition-colors duration-200'
             >
               About ページ
             </Link>
             もご確認ください
-          </p>
+          </p> */}
         </motion.div>
       </div>
     </div>

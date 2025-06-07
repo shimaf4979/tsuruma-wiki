@@ -82,7 +82,7 @@ function PagesContent() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.1 }}
           className='mb-8'
         >
           <p className='text-koala-600'>鶴舞こあらに関する情報はこちら！</p>
@@ -92,7 +92,7 @@ function PagesContent() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.1, delay: 0.01 }}
           className='mb-8'
         >
           {showFilterBar && (
@@ -184,7 +184,7 @@ function PagesContent() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.1, delay: 0.02 }}
         >
           {isLoading ? (
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
@@ -227,7 +227,7 @@ function PagesContent() {
                       key={page.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      transition={{ duration: 0.1, delay: index * 0.01 }}
                     >
                       <Link href={`/wiki/${page.id}`} className='block'>
                         <div className='card hover:shadow-lg transition-all duration-300 h-full bg-white/50 backdrop-blur-sm border border-koala-100 rounded-2xl p-6 group'>
@@ -300,7 +300,7 @@ function PagesContent() {
                       key={page.id}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.05 }}
+                      transition={{ duration: 0.1, delay: index * 0.01 }}
                     >
                       <Link href={`/wiki/${page.id}`} className='block'>
                         <div className='card hover:shadow-lg transition-all duration-300 bg-white/50 backdrop-blur-sm border border-koala-100 rounded-2xl p-6 group'>

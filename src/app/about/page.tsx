@@ -14,9 +14,9 @@ export default function AboutPage() {
             transition={{ duration: 0.1, delay: 0.2 }}
             className='mb-12'
           >
-            <h1 className='text-4xl md:text-6xl font-bold text-koala-900 mb-6 tracking-tight'>
-              鶴舞こあらについて
-            </h1>
+            {/* <h1 className='text-4xl md:text-6xl font-bold text-koala-900 mb-6 tracking-tight'>
+              鶴舞こあらとは
+            </h1> */}
             <img
               src='/tsuruma.webp'
               alt='鶴舞こあら'

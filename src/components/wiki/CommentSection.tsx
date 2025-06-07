@@ -5,6 +5,7 @@ import { MessageCircle, Send, Edit, Trash2, User } from "lucide-react";
 import { commentAPI } from "../../lib/api";
 import { useAuthStore, useUIStore } from "../../store";
 import { Comment } from "../../types";
+import Link from "next/link";
 
 interface CommentSectionProps {
   pageId: string;
@@ -186,9 +187,9 @@ export function CommentSection({ pageId }: CommentSectionProps) {
 
   return (
     <section className='mt-12'>
-      <div className='flex items-center space-x-2 mb-8'>
-        <MessageCircle className='w-6 h-6 text-koala-600' />
-        <h2 className='text-2xl font-bold text-koala-900'>
+      <div className='flex items-center space-x-2 mb-4 sm:mb-8'>
+        <MessageCircle className='w-5 h-5 sm:w-6 sm:h-6 text-koala-600' />
+        <h2 className='text-xl sm:text-2xl font-bold text-koala-900'>
           コメント ({comments.length})
         </h2>
       </div>
@@ -198,9 +199,9 @@ export function CommentSection({ pageId }: CommentSectionProps) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className='mb-8 p-6 bg-koala-50 border border-koala-200 rounded-lg'
+          className='mb-6 sm:mb-8 p-4 sm:p-6 bg-koala-50 border border-koala-200 rounded-lg'
         >
-          <form onSubmit={handleSubmit} className='space-y-4'>
+          <form onSubmit={handleSubmit} className='space-y-3 sm:space-y-4'>
             <div>
               <label className='block text-sm font-medium text-koala-700 mb-2'>
                 コメントを投稿
@@ -209,39 +210,40 @@ export function CommentSection({ pageId }: CommentSectionProps) {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder='コメントを入力してください...'
-                className='w-full px-4 py-3 border border-koala-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none'
-                rows={4}
+                className='w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-koala-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none'
+                rows={3}
                 maxLength={1000}
                 disabled={createCommentMutation.isPending}
               />
               <div className='text-right text-xs text-koala-500 mt-1'>
                 {newComment.length}/1000
+                <button
+                  type='submit'
+                  disabled={
+                    createCommentMutation.isPending || !newComment.trim()
+                  }
+                  className='btn-primary text-sm sm:text-base px-3 sm:px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed'
+                >
+                  {createCommentMutation.isPending ? (
+                    <div className='flex items-center space-x-2'>
+                      <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' />
+                      <span>投稿中...</span>
+                    </div>
+                  ) : (
+                    <div className='flex items-center space-x-2'>
+                      <Send className='w-4 h-4' />
+                      <span>投稿</span>
+                    </div>
+                  )}
+                </button>
               </div>
             </div>
-            <div className='flex justify-end'>
-              <button
-                type='submit'
-                disabled={createCommentMutation.isPending || !newComment.trim()}
-                className='btn-primary disabled:opacity-50 disabled:cursor-not-allowed'
-              >
-                {createCommentMutation.isPending ? (
-                  <div className='flex items-center space-x-2'>
-                    <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' />
-                    <span>投稿中...</span>
-                  </div>
-                ) : (
-                  <div className='flex items-center space-x-2'>
-                    <Send className='w-4 h-4' />
-                    <span>投稿</span>
-                  </div>
-                )}
-              </button>
-            </div>
+            <div className='flex justify-end'></div>
           </form>
         </motion.div>
       ) : (
-        <div className='mb-8 p-6 bg-gray-50 border border-gray-200 rounded-lg text-center'>
-          <p className='text-gray-600'>
+        <div className='mb-6 sm:mb-8 p-4 sm:p-6 bg-gray-50 border border-gray-200 rounded-lg text-center'>
+          <p className='text-sm sm:text-base text-gray-600'>
             コメントを投稿するには
             <a
               href='/login'
@@ -257,14 +259,14 @@ export function CommentSection({ pageId }: CommentSectionProps) {
       {/* コメント一覧 */}
       <div className='space-y-6'>
         {isLoading ? (
-          <div className='space-y-4'>
+          <div className='space-y-3 sm:space-y-4'>
             {[...Array(3)].map((_, i) => (
               <div key={i} className='animate-pulse'>
-                <div className='flex space-x-4'>
-                  <div className='w-10 h-10 bg-koala-200 rounded-full' />
+                <div className='flex space-x-3 sm:space-x-4'>
+                  <div className='w-8 h-8 sm:w-10 sm:h-10 bg-koala-200 rounded-full' />
                   <div className='flex-1 space-y-2'>
-                    <div className='h-4 bg-koala-200 rounded w-1/4' />
-                    <div className='h-16 bg-koala-200 rounded' />
+                    <div className='h-3 sm:h-4 bg-koala-200 rounded w-1/4' />
+                    <div className='h-12 sm:h-16 bg-koala-200 rounded' />
                   </div>
                 </div>
               </div>
@@ -278,35 +280,43 @@ export function CommentSection({ pageId }: CommentSectionProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className='p-6 bg-white border border-koala-200 rounded-lg'
+                className='p-4 sm:p-6 bg-white border border-koala-200 rounded-lg'
               >
-                <div className='flex items-start justify-between'>
-                  <div className='flex space-x-4 flex-1'>
+                <div className='flex items-start justify-between flex-col sm:flex-row'>
+                  <div className='flex space-x-3 sm:space-x-4 flex-1 w-full'>
                     {/* ユーザーアバター */}
                     <div className='flex-shrink-0'>
-                      {comment.author.avatarUrl ? (
-                        <img
-                          src={comment.author.avatarUrl}
-                          alt={comment.author.nickname}
-                          className='w-10 h-10 rounded-full object-cover'
-                        />
-                      ) : (
-                        <div className='w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center'>
-                          <User className='w-6 h-6 text-primary-600' />
-                        </div>
-                      )}
+                      <Link
+                        href={`/users/${comment.author.id}`}
+                        className='block'
+                      >
+                        {comment.author.avatarUrl ? (
+                          <img
+                            src={comment.author.avatarUrl}
+                            alt={comment.author.nickname}
+                            className='w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover hover:opacity-80 transition-opacity'
+                          />
+                        ) : (
+                          <div className='w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary-100 flex items-center justify-center hover:bg-primary-200 transition-colors'>
+                            <User className='w-5 h-5 sm:w-6 sm:h-6 text-primary-600' />
+                          </div>
+                        )}
+                      </Link>
                     </div>
 
                     {/* コメント内容 */}
                     <div className='flex-1 min-w-0'>
-                      <div className='flex items-center space-x-2 mb-2'>
-                        <span className='font-medium text-koala-900'>
+                      <div className='flex flex-wrap items-center gap-2 mb-2'>
+                        <Link
+                          href={`/users/${comment.author.id}`}
+                          className='font-medium text-koala-900 text-sm sm:text-base hover:text-primary-600 transition-colors'
+                        >
                           {comment.author.nickname}
-                        </span>
-                        <span className='px-2 py-1 text-xs font-medium bg-koala-100 text-koala-700 rounded-full'>
+                        </Link>
+                        <span className='px-2 py-0.5 text-xs font-medium bg-koala-100 text-koala-700 rounded-full'>
                           {comment.author.role}
                         </span>
-                        <span className='text-sm text-koala-500'>
+                        <span className='text-xs sm:text-sm text-koala-500'>
                           {new Date(comment.createdAt).toLocaleDateString(
                             "ja-JP",
                             {
@@ -331,7 +341,7 @@ export function CommentSection({ pageId }: CommentSectionProps) {
                             title='コメントを編集'
                             value={editContent}
                             onChange={(e) => setEditContent(e.target.value)}
-                            className='w-full px-3 py-2 border border-koala-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none'
+                            className='w-full px-3 py-2 text-sm sm:text-base border border-koala-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none'
                             rows={3}
                             maxLength={1000}
                           />
@@ -352,7 +362,7 @@ export function CommentSection({ pageId }: CommentSectionProps) {
                           </div>
                         </div>
                       ) : (
-                        <p className='text-koala-700 whitespace-pre-wrap'>
+                        <p className='text-sm sm:text-base text-koala-700 whitespace-pre-wrap'>
                           {comment.content}
                         </p>
                       )}
@@ -361,10 +371,10 @@ export function CommentSection({ pageId }: CommentSectionProps) {
 
                   {/* アクションボタン */}
                   {canEditComment(comment) && editingId !== comment.id && (
-                    <div className='flex space-x-2 ml-4'>
+                    <div className='flex space-x-2 mt-3 sm:mt-0 sm:ml-4'>
                       <button
                         onClick={() => handleEdit(comment)}
-                        className='p-2 text-koala-600 hover:bg-koala-100 rounded'
+                        className='p-1.5 sm:p-2 text-koala-600 hover:bg-koala-100 rounded'
                         title='編集'
                       >
                         <Edit className='w-4 h-4' />
@@ -372,7 +382,7 @@ export function CommentSection({ pageId }: CommentSectionProps) {
                       <button
                         onClick={() => deleteCommentMutation.mutate(comment.id)}
                         disabled={deleteCommentMutation.isPending}
-                        className='p-2 text-red-600 hover:bg-red-50 rounded disabled:opacity-50'
+                        className='p-1.5 sm:p-2 text-red-600 hover:bg-red-50 rounded disabled:opacity-50'
                         title='削除'
                       >
                         <Trash2 className='w-4 h-4' />
@@ -386,10 +396,12 @@ export function CommentSection({ pageId }: CommentSectionProps) {
         )}
 
         {comments.length === 0 && !isLoading && (
-          <div className='text-center py-12'>
-            <MessageCircle className='w-16 h-16 text-koala-300 mx-auto mb-4' />
-            <p className='text-koala-500 text-lg'>まだコメントがありません</p>
-            <p className='text-koala-400 text-sm mt-2'>
+          <div className='text-center py-8 sm:py-12'>
+            <MessageCircle className='w-12 h-12 sm:w-16 sm:h-16 text-koala-300 mx-auto mb-3 sm:mb-4' />
+            <p className='text-base sm:text-lg text-koala-500'>
+              まだコメントがありません
+            </p>
+            <p className='text-xs sm:text-sm text-koala-400 mt-1 sm:mt-2'>
               最初のコメントを投稿してみませんか？
             </p>
           </div>

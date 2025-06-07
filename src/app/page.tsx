@@ -359,7 +359,7 @@ function HomeContent() {
       className='min-h-screen bg-white'
     >
       {/* ヒーローセクション */}
-      <section className='relative bg-gradient-to-b from-white to-gray-50 pt-16 pb-24'>
+      <section className='relative bg-gradient-to-b from-white to-gray-50 pt-4 pb-20'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
             <motion.div
@@ -382,14 +382,14 @@ function HomeContent() {
               <div className='flex flex-col sm:flex-row gap-4 justify-center'>
                 <Link
                   href='/pages'
-                  className='btn-primary text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center bg-koala-600 hover:bg-koala-700 text-white'
+                  className='btn-primary text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center bg-primary-500 hover:bg-primary-600 text-white'
                 >
                   <BookOpen className='w-5 h-5 mr-2' />
                   ページを読む
                 </Link>
                 <Link
                   href='/editor'
-                  className='btn-outline text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border-2 border-koala-600 text-koala-600 hover:bg-koala-50'
+                  className='btn-outline text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border-2 border-primary-500 text-primary-600 hover:bg-primary-50'
                 >
                   ページを作成
                 </Link>

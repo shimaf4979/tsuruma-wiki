@@ -165,31 +165,31 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className='min-h-screen bg-koala-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
+    <div className='min-h-screen bg-gradient-to-br from-koala-50 to-koala-100 flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8'>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className='max-w-md w-full space-y-8'
+        className='max-w-md w-full space-y-10'
       >
         <div>
           <div className='text-center'>
-            <motion.div
+            {/* <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className='mx-auto h-12 w-12 bg-primary-100 rounded-full flex items-center justify-center'
+              className='mx-auto h-20 w-20 bg-primary-100 rounded-full flex items-center justify-center shadow-md'
             >
-              <UserPlus className='h-6 w-6 text-primary-600' />
-            </motion.div>
-            <h2 className='mt-6 text-center text-3xl font-bold text-koala-900'>
+              <UserPlus className='h-10 w-10 text-primary-600' />
+            </motion.div> */}
+            <h2 className='mt-8 text-center text-3xl font-bold text-koala-900 tracking-tight'>
               新しいアカウントを作成
             </h2>
-            <p className='mt-2 text-center text-sm text-koala-600'>
+            <p className='mt-3 text-center text-sm text-koala-600'>
               または{" "}
               <Link
                 href='/login'
-                className='font-medium text-primary-600 hover:text-primary-500'
+                className='font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200'
               >
                 既存のアカウントでログイン
               </Link>
@@ -201,13 +201,12 @@ export default function RegisterPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className='mt-8 space-y-6'
+          className='mt-10 space-y-6'
           onSubmit={handleSubmit}
         >
-          <div className='card'>
-            {/* バリデーションエラー表示 */}
+          <div className='bg-white shadow-lg rounded-2xl p-8 border border-koala-100'>
             {validationErrors.length > 0 && (
-              <div className='mb-4 p-3 bg-red-50 border border-red-200 rounded-lg'>
+              <div className='mb-6 p-4 bg-red-50 border border-red-200 rounded-xl'>
                 <div className='flex items-start'>
                   <AlertCircle className='w-5 h-5 text-red-600 mt-0.5 mr-2 flex-shrink-0' />
                   <div>
@@ -224,11 +223,11 @@ export default function RegisterPage() {
               </div>
             )}
 
-            <div className='space-y-4'>
+            <div className='space-y-6'>
               <div>
                 <label
                   htmlFor='nickname'
-                  className='block text-sm font-medium text-koala-700 mb-1'
+                  className='block text-sm font-medium text-koala-700 mb-2'
                 >
                   ニックネーム <span className='text-red-500'>*</span>
                 </label>
@@ -241,20 +240,20 @@ export default function RegisterPage() {
                     required
                     value={formData.nickname}
                     onChange={handleChange}
-                    className='input pl-10'
+                    className='w-full pl-10 pr-4 py-3 rounded-xl border border-koala-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200 bg-white'
                     placeholder='こあらちゃん'
                     maxLength={20}
                   />
                 </div>
-                <p className='text-xs text-koala-500 mt-1'>
-                  日本語、英数字、スペースのみ使用可能（20文字以内）
+                <p className='text-xs text-koala-500 mt-2'>
+                  日本語、英数字、スペースのみ（20文字以内）
                 </p>
               </div>
 
               <div>
                 <label
                   htmlFor='email'
-                  className='block text-sm font-medium text-koala-700 mb-1'
+                  className='block text-sm font-medium text-koala-700 mb-2'
                 >
                   メールアドレス <span className='text-red-500'>*</span>
                 </label>
@@ -268,7 +267,7 @@ export default function RegisterPage() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className='input pl-10'
+                    className='w-full pl-10 pr-4 py-3 rounded-xl border border-koala-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200 bg-white'
                     placeholder='koala@example.com'
                     maxLength={100}
                   />
@@ -278,7 +277,7 @@ export default function RegisterPage() {
               <div>
                 <label
                   htmlFor='password'
-                  className='block text-sm font-medium text-koala-700 mb-1'
+                  className='block text-sm font-medium text-koala-700 mb-2'
                 >
                   パスワード <span className='text-red-500'>*</span>
                 </label>
@@ -292,14 +291,14 @@ export default function RegisterPage() {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className='input pl-10 pr-10'
+                    className='w-full pl-10 pr-10 py-3 rounded-xl border border-koala-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200 bg-white'
                     placeholder='••••••••'
                     minLength={6}
                   />
                   <button
                     type='button'
                     onClick={() => setShowPassword(!showPassword)}
-                    className='absolute right-3 top-1/2 transform -translate-y-1/2 text-koala-400 hover:text-koala-600'
+                    className='absolute right-3 top-1/2 transform -translate-y-1/2 text-koala-400 hover:text-koala-600 transition-colors duration-200'
                   >
                     {showPassword ? (
                       <EyeOff className='w-5 h-5' />
@@ -308,17 +307,17 @@ export default function RegisterPage() {
                     )}
                   </button>
                 </div>
-                <p className='text-xs text-koala-500 mt-1'>
+                <p className='text-xs text-koala-500 mt-2'>
                   6文字以上で入力してください
                 </p>
               </div>
             </div>
 
-            <div className='mt-6'>
+            <div className='mt-8'>
               <button
                 type='submit'
                 disabled={registerMutation.isPending}
-                className='w-full btn-primary py-3 text-base'
+                className='w-full bg-primary-500 text-white py-3 px-4 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed'
               >
                 {registerMutation.isPending ? (
                   <div className='flex items-center justify-center'>
@@ -326,17 +325,17 @@ export default function RegisterPage() {
                     作成中...
                   </div>
                 ) : (
-                  <>
+                  <div className='flex items-center justify-center'>
                     <UserPlus className='w-5 h-5 mr-2' />
                     アカウント作成
-                  </>
+                  </div>
                 )}
               </button>
             </div>
           </div>
         </motion.form>
 
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
@@ -359,7 +358,7 @@ export default function RegisterPage() {
             </Link>
             に同意したものとみなされます。
           </p>
-        </motion.div>
+        </motion.div> */}
       </motion.div>
     </div>
   );

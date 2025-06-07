@@ -92,7 +92,7 @@ export default function SettingsPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.1 }}
           className='mb-8'
         >
           <button
@@ -108,7 +108,7 @@ export default function SettingsPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.1, delay: 0.01 }}
           className='mb-8'
         >
           <h1 className='text-3xl font-bold text-foreground mb-2'>設定</h1>
@@ -119,7 +119,7 @@ export default function SettingsPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.1, delay: 0.02 }}
           className='space-y-4'
         >
           {settingsMenu.map((item, index) => {
@@ -168,7 +168,7 @@ export default function SettingsPage() {
                 key={item.title}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                transition={{ duration: 0.1, delay: 0.03 + index * 0.01 }}
               >
                 {isDisabled ? content : <Link href={item.href}>{content}</Link>}
               </motion.div>
@@ -180,7 +180,7 @@ export default function SettingsPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          transition={{ duration: 0.1, delay: 0.04 }}
           className='mt-12 card'
         >
           <h3 className='font-medium text-foreground mb-4'>アカウント情報</h3>
