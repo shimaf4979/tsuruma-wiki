@@ -1,0 +1,1938 @@
+openapi: 3.1.0
+info:
+  title: 鶴舞こあらWiki API
+  description: |
+    🐨 **鶴舞こあらWiki バックエンドAPI**
+
+    みんなで作る地域情報WikiサイトのためのRESTful API
+
+    ## 🔐 認証について
+    - JWT Bearer Tokenを使用
+    - `Authorization: Bearer <token>` ヘッダーで認証
+    - トークン有効期限: 7日間
+
+    ## 👥 権限レベル
+    - **contributor**: ページ作成（下書き）、コメント投稿
+    - **editor**: ページ作成・編集・即時公開、コメント管理
+    - **moderator**: ページ承認、ユーザー管理、コンテンツモデレーション
+    - **admin**: 全ての操作、システム設定
+
+    ## 📊 レートリミット
+    - 認証: 15分間で5回
+    - アップロード: 1分間で10回
+    - 検索: 1分間で30回
+    - 一般API: 1分間で100回
+
+    ## 📱 レスポンスヘッダー
+    - `X-Request-ID`: リクエスト追跡ID
+    - `X-Response-Time`: レスポンス時間
+    - `X-RateLimit-*`: レート制限情報
+
+  version: 1.0.0
+  contact:
+    name: 鶴舞こあら運営チーム
+    email: info@tsuruma-koala.com
+    url: https://tsuruma-koala.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: https://tsuruma-koala.com/terms
+
+servers:
+  - url: https://api.tsuruma-koala.com
+    description: 🌟 本番環境
+  - url: https://staging-api.tsuruma-koala.com
+    description: 🧪 ステージング環境
+  - url: http://localhost:8787
+    description: 💻 ローカル開発環境
+
+tags:
+  - name: health
+    description: 🏥 ヘルスチェック・システム情報
+  - name: auth
+    description: 🔐 認証・認可
+  - name: users
+    description: 👤 ユーザー管理
+  - name: wiki
+    description: 📝 Wikiページ操作
+  - name: comments
+    description: 💬 コメント機能
+  - name: upload
+    description: 📷 ファイルアップロード
+  - name: search
+    description: 🔍 検索機能
+  - name: admin
+    description: 🛡️ 管理者機能
+
+paths:
+  # ヘルスチェック
+  /:
+    get:
+      summary: システムヘルスチェック
+      description: APIの稼働状況とシステム情報を確認
+      tags:
+        - health
+      responses:
+        "200":
+          description: ✅ システム正常稼働中
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "🐨 鶴舞こあら Wiki API"
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  status:
+                    type: string
+                    example: "healthy"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  environment:
+                    type: string
+                    example: "production"
+
+  /api:
+    get:
+      summary: API情報取得
+      description: 利用可能なエンドポイント一覧を取得
+      tags:
+        - health
+      responses:
+        "200":
+          description: API情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: "鶴舞こあらWiki API"
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  documentation:
+                    type: string
+                    example: "https://api.tsuruma-koala.com/docs"
+                  endpoints:
+                    type: object
+                    properties:
+                      auth:
+                        type: string
+                        example: "/api/auth"
+                      users:
+                        type: string
+                        example: "/api/users"
+                      wiki:
+                        type: string
+                        example: "/api/wiki"
+                      comments:
+                        type: string
+                        example: "/api/comments"
+                      upload:
+                        type: string
+                        example: "/api/upload"
+                      search:
+                        type: string
+                        example: "/api/search"
+                      admin:
+                        type: string
+                        example: "/api/admin"
+
+  /debug:
+    get:
+      summary: デバッグ情報取得
+      description: 開発環境での設定確認用
+      tags:
+        - health
+      responses:
+        "200":
+          description: デバッグ情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hasDB:
+                    type: boolean
+                  hasJWT:
+                    type: boolean
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  # 認証関連
+  /api/auth/test:
+    get:
+      summary: 認証システムテスト
+      description: 認証システムの動作確認
+      tags:
+        - auth
+      responses:
+        "200":
+          description: ✅ 認証システム正常
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Secure auth route is working"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  routes:
+                    type: array
+                    items:
+                      type: string
+                  security:
+                    type: string
+                    example: "Password authentication enabled"
+
+  /api/auth/register:
+    post:
+      summary: 🆕 ユーザー登録
+      description: パスワード付き新規ユーザーアカウントを作成
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nickname
+                - email
+                - password
+              properties:
+                nickname:
+                  type: string
+                  minLength: 1
+                  maxLength: 20
+                  pattern: "^[a-zA-Z0-9\\u3040-\\u309F\\u30A0-\\u30FF\\u4E00-\\u9FAF\\s]+$"
+                  example: "こあらちゃん"
+                  description: "日本語、英数字、スペースのみ使用可能"
+                email:
+                  type: string
+                  format: email
+                  maxLength: 100
+                  example: "koala@example.com"
+                password:
+                  type: string
+                  minLength: 6
+                  example: "securepassword123"
+                  description: "最低6文字以上"
+            examples:
+              normal_user:
+                summary: 通常ユーザー
+                value:
+                  nickname: "鶴舞太郎"
+                  email: "taro@example.com"
+                  password: "password123"
+              contributor:
+                summary: コントリビューター
+                value:
+                  nickname: "地域愛好家"
+                  email: "local@example.com"
+                  password: "mypassword456"
+      responses:
+        "201":
+          description: ✅ 登録成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "409":
+          description: ⚠️ ユーザー既存
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "User already exists with this email"
+                code: "USER_EXISTS"
+
+  /api/auth/login:
+    post:
+      summary: 🔑 ログイン
+      description: メールアドレスとパスワードでログイン
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "koala@example.com"
+                password:
+                  type: string
+                  example: "securepassword123"
+            examples:
+              login_example:
+                summary: ログイン例
+                value:
+                  email: "taro@example.com"
+                  password: "password123"
+      responses:
+        "200":
+          description: ✅ ログイン成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: ❌ 認証失敗
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                invalid_credentials:
+                  summary: 認証情報無効
+                  value:
+                    error: "Invalid email or password"
+                    code: "INVALID_CREDENTIALS"
+
+  /api/auth/verify:
+    get:
+      summary: 🔍 トークン検証
+      description: JWTトークンの有効性を確認
+      tags:
+        - auth
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ✅ トークン有効
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: true
+                  user:
+                    $ref: "#/components/schemas/PublicUser"
+        "401":
+          description: ❌ トークン無効
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Invalid or expired token"
+
+  # ユーザー関連
+  /api/users/me:
+    get:
+      summary: 👤 自分のプロフィール取得
+      description: 認証済みユーザーの詳細情報を取得
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ✅ ユーザー情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: "#/components/schemas/User"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+    put:
+      summary: ✏️ プロフィール更新
+      description: 認証済みユーザーの情報を更新
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nickname:
+                  type: string
+                  minLength: 1
+                  maxLength: 20
+                  pattern: "^[a-zA-Z0-9\\u3040-\\u309F\\u30A0-\\u30FF\\u4E00-\\u9FAF\\s]+$"
+                bio:
+                  type: string
+                  maxLength: 200
+                  example: "鶴舞地域が大好きです！"
+                avatarUrl:
+                  type: string
+                  format: uri
+                  example: "https://images.tsuruma-koala.com/user123/avatar.jpg"
+            examples:
+              update_profile:
+                summary: プロフィール更新例
+                value:
+                  nickname: "新しいニックネーム"
+                  bio: "地域情報を発信していきます！"
+      responses:
+        "200":
+          description: ✅ 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /api/users/{userId}:
+    get:
+      summary: 👁️ ユーザー公開情報取得
+      description: 指定したユーザーの公開情報を取得
+      tags:
+        - users
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          example: "user-123"
+      responses:
+        "200":
+          description: ✅ ユーザー情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: "#/components/schemas/PublicUser"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/users/{userId}/pages:
+    get:
+      summary: 📄 ユーザーの投稿ページ一覧
+      description: 指定したユーザーが投稿した公開ページの一覧を取得
+      tags:
+        - users
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        "200":
+          description: ✅ ユーザーのページ一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pages:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WikiPage"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # Wikiページ関連
+  /api/wiki:
+    get:
+      summary: 📚 ページ一覧取得
+      description: 公開されているページの一覧を取得（検索・フィルター対応）
+      tags:
+        - wiki
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [published, draft]
+            default: published
+          description: ページのステータス
+        - name: search
+          in: query
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 100
+          description: 検索キーワード（タイトル・本文）
+          example: "カフェ"
+        - name: tag
+          in: query
+          schema:
+            type: string
+            maxLength: 20
+          description: タグフィルター
+          example: "グルメ"
+        - name: author
+          in: query
+          schema:
+            type: string
+          description: 著者IDフィルター
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        "200":
+          description: ✅ ページ一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pages:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WikiPage"
+                  total:
+                    type: integer
+                    example: 156
+                  hasMore:
+                    type: boolean
+                    example: true
+
+    post:
+      summary: ✍️ ページ作成
+      description: 新しいページを作成（権限により下書きまたは即時公開）
+      tags:
+        - wiki
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WikiPageCreate"
+            examples:
+              cafe_article:
+                summary: カフェページ例
+                value:
+                  title: "新オープン！素敵なカフェ"
+                  content: "<h2>新しいカフェがオープンしました</h2><p>美味しいコーヒーと手作りケーキが楽しめます。</p>"
+                  tags: ["カフェ", "新店舗", "グルメ"]
+              event_article:
+                summary: イベントページ例
+                value:
+                  title: "🌸 春の桜まつり開催"
+                  content: "<h2>桜まつりのお知らせ</h2><p>今年も美しい桜が咲きました。</p>"
+                  tags: ["イベント", "桜", "春"]
+      responses:
+        "201":
+          description: ✅ 作成成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Page created successfully"
+                  id:
+                    type: string
+                    example: "page-123"
+                  status:
+                    type: string
+                    enum: [published, draft]
+                    description: "権限により決定される公開状態"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /api/wiki/popular:
+    get:
+      summary: 🔥 人気ページ取得
+      description: ビュー数順の人気ページを取得
+      tags:
+        - wiki
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        "200":
+          description: ✅ 人気ページ一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pages:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WikiPage"
+
+  /api/wiki/{pageId}:
+    get:
+      summary: 📖 ページ詳細取得
+      description: 指定したページの詳細を取得（ビューカウント+1）
+      tags:
+        - wiki
+      parameters:
+        - name: pageId
+          in: path
+          schema:
+            type: string
+          example: "page-123"
+      responses:
+        "200":
+          description: ✅ ページ詳細
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    $ref: "#/components/schemas/WikiPage"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    put:
+      summary: ✏️ ページ更新
+      description: ページを更新（作者または編集者以上のみ）
+      tags:
+        - wiki
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: pageId
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WikiPageUpdate"
+      responses:
+        "200":
+          description: ✅ 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    delete:
+      summary: 🗑️ ページ削除
+      description: ページを削除（作者または管理者のみ）
+      tags:
+        - wiki
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: pageId
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ✅ 削除成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/wiki/{pageId}/approve:
+    post:
+      summary: ✅ ページ承認
+      description: 下書きページを承認して公開（モデレーター以上）
+      tags:
+        - wiki
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: pageId
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ✅ 承認成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/wiki/{pageId}/history:
+    get:
+      summary: 📜 編集履歴取得
+      description: ページの編集履歴を取得
+      tags:
+        - wiki
+      parameters:
+        - name: pageId
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ✅ 編集履歴
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  history:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/EditHistory"
+
+  # コメント関連
+  /api/comments:
+    post:
+      summary: 💬 コメント投稿
+      description: ページにコメントを投稿
+      tags:
+        - comments
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - pageId
+                - content
+              properties:
+                pageId:
+                  type: string
+                  example: "page-123"
+                content:
+                  type: string
+                  minLength: 1
+                  maxLength: 1000
+                  example: "とても参考になりました！"
+            examples:
+              positive_comment:
+                summary: 肯定的コメント
+                value:
+                  pageId: "page-123"
+                  content: "素晴らしいページでした！参考になります。"
+              question_comment:
+                summary: 質問コメント
+                value:
+                  pageId: "page-123"
+                  content: "営業時間も教えていただけませんか？"
+      responses:
+        "201":
+          description: ✅ 投稿成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Comment posted successfully"
+                  id:
+                    type: string
+                    example: "comment-123"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          description: ❌ 未公開ページへのコメント
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/comments/page/{pageId}:
+    get:
+      summary: 📄 ページのコメント取得
+      description: 指定したページの全コメントを時系列順で取得
+      tags:
+        - comments
+      parameters:
+        - name: pageId
+          in: path
+          schema:
+            type: string
+          example: "page-123"
+      responses:
+        "200":
+          description: ✅ コメント一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Comment"
+
+  /api/comments/{commentId}:
+    put:
+      summary: ✏️ コメント更新
+      description: 自分のコメントを更新（作者またはモデレーター以上）
+      tags:
+        - comments
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: commentId
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+                  minLength: 1
+                  maxLength: 1000
+      responses:
+        "200":
+          description: ✅ 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    delete:
+      summary: 🗑️ コメント削除
+      description: 自分のコメントを削除（作者またはモデレーター以上）
+      tags:
+        - comments
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: commentId
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ✅ 削除成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/comments/user/{userId}:
+    get:
+      summary: 👤 ユーザーのコメント一覧
+      description: 指定したユーザーの全コメントを取得
+      tags:
+        - comments
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: ✅ ユーザーのコメント一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        pageId:
+                          type: string
+                        pageTitle:
+                          type: string
+                        content:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date-time
+
+  # ファイルアップロード
+  /api/upload/image:
+    post:
+      summary: 📷 画像アップロード
+      description: 画像ファイルをR2にアップロード（認証必要）
+      tags:
+        - upload
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - image
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: |
+                    画像ファイル
+                    - 対応形式: JPEG, PNG, WebP, GIF
+                    - 最大サイズ: 5MB
+            encoding:
+              image:
+                contentType: image/*
+      responses:
+        "200":
+          description: ✅ アップロード成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Image uploaded successfully"
+                  url:
+                    type: string
+                    format: uri
+                    example: "https://images.tsuruma-koala.com/user123/1234567890-image.jpg"
+                  fileName:
+                    type: string
+                    example: "user123/1234567890-image.jpg"
+                  size:
+                    type: integer
+                    example: 1024000
+        "400":
+          description: ❌ ファイルエラー
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                    enum: [NO_FILE, FILE_TOO_LARGE, INVALID_FILE_TYPE]
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /api/upload/history:
+    get:
+      summary: 📂 アップロード履歴取得
+      description: 自分のアップロード履歴を取得
+      tags:
+        - upload
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: ✅ アップロード履歴
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uploads:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        fileName:
+                          type: string
+                        originalName:
+                          type: string
+                        fileSize:
+                          type: integer
+                        mimeType:
+                          type: string
+                        url:
+                          type: string
+                        uploadedAt:
+                          type: string
+                          format: date-time
+
+  /api/upload/{fileName}:
+    delete:
+      summary: 🗑️ ファイル削除
+      description: 自分がアップロードしたファイルを削除
+      tags:
+        - upload
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: fileName
+          in: path
+          schema:
+            type: string
+          example: "user123/1234567890-image.jpg"
+      responses:
+        "200":
+          description: ✅ 削除成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  # 検索機能
+  /api/search:
+    get:
+      summary: 🔍 全文検索
+      description: ページ・ユーザーを横断検索
+      tags:
+        - search
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 100
+          description: 検索クエリ
+          example: "カフェ"
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [all, pages, users]
+            default: all
+          description: 検索対象タイプ
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        "200":
+          description: ✅ 検索結果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pages:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WikiPage"
+                    description: "type=pagesまたはtype=allの場合のみ含まれる"
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PublicUser"
+                    description: "type=usersまたはtype=allの場合のみ含まれる"
+        "400":
+          description: ❌ クエリ不正
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "Search query is required"
+
+  /api/search/tags:
+    get:
+      summary: 🏷️ 人気タグ取得
+      description: 使用頻度順の人気タグ一覧を取得
+      tags:
+        - search
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+      responses:
+        "200":
+          description: ✅ 人気タグ一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tags:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        tag:
+                          type: string
+                          example: "カフェ"
+                        count:
+                          type: integer
+                          example: 15
+
+  /api/search/suggestions:
+    get:
+      summary: 💡 検索候補取得
+      description: 入力中の文字列に基づく検索候補を取得
+      tags:
+        - search
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+          example: "カフ"
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10
+            default: 5
+      responses:
+        "200":
+          description: ✅ 検索候補
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  suggestions:
+                    type: array
+                    items:
+                      type: string
+                    example: ["カフェガイド", "カフェ巡り", "新しいカフェ"]
+
+  # 管理者機能
+  /api/admin/users:
+    get:
+      summary: 👥 全ユーザー管理
+      description: 全ユーザーの一覧を取得・管理（管理者のみ）
+      tags:
+        - admin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum: [contributor, editor, moderator, admin]
+          description: 権限でフィルター
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: ニックネーム・メールで検索
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        "200":
+          description: ✅ ユーザー一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: "#/components/schemas/User"
+                        - type: object
+                          properties:
+                            pageCount:
+                              type: integer
+                              description: "投稿ページ数"
+                            commentCount:
+                              type: integer
+                              description: "コメント数"
+                  total:
+                    type: integer
+                  hasMore:
+                    type: boolean
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /api/admin/users/{userId}/role:
+    put:
+      summary: 🔄 ユーザー権限変更
+      description: ユーザーの権限レベルを変更（管理者のみ）
+      tags:
+        - admin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          example: "user-123"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - role
+              properties:
+                role:
+                  type: string
+                  enum: [contributor, editor, moderator, admin]
+                  example: "editor"
+            examples:
+              promote_to_editor:
+                summary: エディターに昇格
+                value:
+                  role: "editor"
+              promote_to_moderator:
+                summary: モデレーターに昇格
+                value:
+                  role: "moderator"
+      responses:
+        "200":
+          description: ✅ 権限変更成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "400":
+          description: ❌ 無効な権限
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          description: ❌ 自分の権限は変更不可
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "Cannot change your own role"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/admin/pages/pending:
+    get:
+      summary: ⏳ 承認待ちページ一覧
+      description: 承認待ちのページ一覧を取得（モデレーター以上）
+      tags:
+        - admin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: ✅ 承認待ちページ一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pages:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: "#/components/schemas/WikiPage"
+                        - type: object
+                          properties:
+                            author:
+                              allOf:
+                                - $ref: "#/components/schemas/PublicUser"
+                                - type: object
+                                  properties:
+                                    email:
+                                      type: string
+                                      description: "管理者向け情報"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /api/admin/stats:
+    get:
+      summary: 📊 サイト統計情報
+      description: サイト全体の統計情報を取得（管理者のみ）
+      tags:
+        - admin
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ✅ 統計情報
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalUsers:
+                    type: integer
+                    example: 1250
+                    description: "総ユーザー数"
+                  totalPages:
+                    type: integer
+                    example: 89
+                    description: "公開ページ数"
+                  totalComments:
+                    type: integer
+                    example: 456
+                    description: "総コメント数"
+                  totalViews:
+                    type: integer
+                    example: 12340
+                    description: "総ページビュー数"
+                  newUsersThisMonth:
+                    type: integer
+                    example: 23
+                    description: "今月の新規ユーザー数"
+                  newPagesThisMonth:
+                    type: integer
+                    example: 8
+                    description: "今月の新規ページ数"
+                  viewsThisWeek:
+                    type: integer
+                    example: 789
+                    description: "今週のページビュー数"
+                  commentsThisWeek:
+                    type: integer
+                    example: 34
+                    description: "今週のコメント数"
+                  topPages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        title:
+                          type: string
+                        viewCount:
+                          type: integer
+                    description: "人気ページTop5"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /api/admin/settings:
+    get:
+      summary: ⚙️ システム設定取得
+      description: システム設定の一覧を取得（管理者のみ）
+      tags:
+        - admin
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ✅ システム設定
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  settings:
+                    type: object
+                    additionalProperties: true
+                    example:
+                      site_name: "鶴舞こあらWiki"
+                      site_description: "みんなで作る鶴舞の地域情報"
+                      allow_registration: true
+                      require_email_verification: false
+                      max_upload_size: 5242880
+                      moderation_enabled: true
+                      auto_approve_editors: true
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+    put:
+      summary: ⚙️ システム設定更新
+      description: システム設定を更新（管理者のみ）
+      tags:
+        - admin
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              example:
+                site_name: "鶴舞こあらWiki"
+                allow_registration: true
+                moderation_enabled: true
+      responses:
+        "200":
+          description: ✅ 設定更新成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /api/admin/logs:
+    get:
+      summary: 📋 管理ログ取得
+      description: 管理者操作ログを取得（管理者のみ）
+      tags:
+        - admin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: action
+          in: query
+          schema:
+            type: string
+          description: "アクションでフィルター（role_change等）"
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            maximum: 200
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: ✅ 管理ログ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  logs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        adminId:
+                          type: string
+                        adminNickname:
+                          type: string
+                        action:
+                          type: string
+                        targetType:
+                          type: string
+                        targetId:
+                          type: string
+                        oldValue:
+                          type: string
+                        newValue:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date-time
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+# コンポーネント定義
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT Bearer Token認証
+
+        **取得方法:** `/api/auth/login` または `/api/auth/register`
+
+        **ヘッダー例:** `Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
+
+        **有効期限:** 7日間
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "user-123"
+        nickname:
+          type: string
+          example: "こあらちゃん"
+        email:
+          type: string
+          format: email
+          example: "koala@example.com"
+        role:
+          type: string
+          enum: [contributor, editor, moderator, admin]
+          example: "contributor"
+        avatarUrl:
+          type: string
+          format: uri
+          nullable: true
+          example: "https://images.tsuruma-koala.com/user123/avatar.jpg"
+        bio:
+          type: string
+          nullable: true
+          example: "鶴舞地域が大好きです！"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    PublicUser:
+      type: object
+      properties:
+        id:
+          type: string
+        nickname:
+          type: string
+        role:
+          type: string
+          enum: [contributor, editor, moderator, admin]
+        avatarUrl:
+          type: string
+          format: uri
+          nullable: true
+        bio:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+
+    WikiPage:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "page-123"
+        title:
+          type: string
+          example: "🌸 鶴舞公園の楽しみ方"
+        content:
+          type: string
+          description: "HTML形式のコンテンツ"
+          example: "<h2>公園について</h2><p>美しい桜で有名な公園です。</p>"
+        authorId:
+          type: string
+        author:
+          $ref: "#/components/schemas/PublicUser"
+        tags:
+          type: array
+          items:
+            type: string
+          example: ["鶴舞公園", "桜", "観光"]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [published, draft, archived]
+        viewCount:
+          type: integer
+          example: 42
+
+    WikiPageCreate:
+      type: object
+      required:
+        - title
+        - content
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+          example: "新しいカフェの紹介"
+        content:
+          type: string
+          minLength: 1
+          maxLength: 100000
+          example: "<h2>新オープン</h2><p>素敵なカフェがオープンしました。</p>"
+        tags:
+          type: array
+          items:
+            type: string
+            maxLength: 20
+          maxItems: 10
+          example: ["カフェ", "新店舗", "グルメ"]
+          default: []
+
+    WikiPageUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        content:
+          type: string
+          minLength: 1
+          maxLength: 100000
+        tags:
+          type: array
+          items:
+            type: string
+            maxLength: 20
+          maxItems: 10
+
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+        pageId:
+          type: string
+        authorId:
+          type: string
+        author:
+          $ref: "#/components/schemas/PublicUser"
+        content:
+          type: string
+          example: "とても参考になりました！"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    EditHistory:
+      type: object
+      properties:
+        id:
+          type: string
+        pageId:
+          type: string
+        editorId:
+          type: string
+        editor:
+          $ref: "#/components/schemas/PublicUser"
+        titleBefore:
+          type: string
+          nullable: true
+        titleAfter:
+          type: string
+          nullable: true
+        contentBefore:
+          type: string
+          nullable: true
+        contentAfter:
+          type: string
+          nullable: true
+        editedAt:
+          type: string
+          format: date-time
+
+    AuthResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Login successful"
+        token:
+          type: string
+          description: "JWT認証トークン（7日間有効）"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        user:
+          $ref: "#/components/schemas/User"
+
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Operation completed successfully"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Resource not found"
+        code:
+          type: string
+          example: "NOT_FOUND"
+        details:
+          type: object
+          nullable: true
+        requestId:
+          type: string
+          example: "req-123"
+
+  responses:
+    ValidationError:
+      description: ❌ バリデーションエラー
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Validation failed"
+              code:
+                type: string
+                example: "VALIDATION_ERROR"
+              details:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                          example: "nickname"
+                        message:
+                          type: string
+                          example: "Nickname is required"
+                        code:
+                          type: string
+                          example: "invalid_type"
+              requestId:
+                type: string
+
+    Unauthorized:
+      description: ❌ 認証が必要
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          examples:
+            missing_token:
+              summary: トークンなし
+              value:
+                error: "Authorization required"
+                code: "MISSING_TOKEN"
+            invalid_token:
+              summary: 無効トークン
+              value:
+                error: "Invalid token"
+                code: "INVALID_TOKEN"
+            expired_token:
+              summary: 期限切れ
+              value:
+                error: "Token expired"
+                code: "TOKEN_EXPIRED"
+
+    Forbidden:
+      description: ❌ 権限不足
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: "Insufficient permissions"
+            code: "INSUFFICIENT_PERMISSIONS"
+
+    NotFound:
+      description: ❌ リソースが見つからない
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: "Resource not found"
+            code: "NOT_FOUND"
+
+    RateLimitExceeded:
+      description: ❌ レート制限超過
+      headers:
+        X-RateLimit-Limit:
+          description: 制限回数
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          description: 残り回数
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          description: リセット時刻（Unix timestamp）
+          schema:
+            type: integer
+        Retry-After:
+          description: 再試行まで秒数
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: "Rate limit exceeded"
+            code: "RATE_LIMIT_EXCEEDED"
+            details:
+              retryAfter: 60
+
+    InternalServerError:
+      description: ❌ サーバーエラー
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: "Internal server error"
+            code: "INTERNAL_ERROR"
+
+# セキュリティ要件（全エンドポイントに適用）
+security: []
