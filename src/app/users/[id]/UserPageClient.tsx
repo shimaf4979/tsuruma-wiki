@@ -18,7 +18,7 @@ export function UserPageClient({ userId }: UserPageClientProps) {
     queryFn: () => userAPI.getUser(userId),
   });
 
-  // ユーザーの記事を取得
+  // ユーザーのページを取得
   const { data: userPages, isLoading: pagesLoading } = useQuery({
     queryKey: ["userPages", userId],
     queryFn: () => userAPI.getUserPages(userId, 10, 0),
@@ -86,7 +86,7 @@ export function UserPageClient({ userId }: UserPageClientProps) {
             お探しのユーザーは存在しないか、削除された可能性があります。
           </p>
           <Link href='/pages' className='btn-primary'>
-            記事一覧に戻る
+            ページ一覧に戻る
           </Link>
         </div>
       </div>
@@ -108,7 +108,7 @@ export function UserPageClient({ userId }: UserPageClientProps) {
             className='inline-flex items-center text-koala-600 hover:text-koala-900 transition-colors'
           >
             <ArrowLeft className='w-4 h-4 mr-2' />
-            記事一覧に戻る
+            ページ一覧に戻る
           </Link>
         </motion.div>
 
@@ -171,7 +171,7 @@ export function UserPageClient({ userId }: UserPageClientProps) {
                 <div className='flex items-center space-x-1'>
                   <BookOpen className='w-4 h-4 text-koala-400' />
                   <span className='text-koala-600'>
-                    {userPages?.length || 0}件の記事
+                    {userPages?.length || 0}件のページ
                   </span>
                 </div>
               </div>
@@ -179,14 +179,14 @@ export function UserPageClient({ userId }: UserPageClientProps) {
           </div>
         </motion.div>
 
-        {/* ユーザーの記事一覧 */}
+        {/* ユーザーのページ一覧 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <h2 className='text-xl font-semibold text-koala-900 mb-6'>
-            投稿した記事
+            投稿したページ
           </h2>
 
           {pagesLoading ? (
@@ -238,10 +238,10 @@ export function UserPageClient({ userId }: UserPageClientProps) {
             <div className='text-center py-12'>
               <BookOpen className='w-16 h-16 text-koala-300 mx-auto mb-4' />
               <h3 className='text-lg font-medium text-koala-700 mb-2'>
-                まだ記事がありません
+                まだページがありません
               </h3>
               <p className='text-koala-500'>
-                {user.nickname}さんはまだ記事を投稿していません
+                {user.nickname}さんはまだページを投稿していません
               </p>
             </div>
           )}

@@ -20,14 +20,14 @@ import { wikiAPI, searchAPI } from "../../lib/api";
 export function Sidebar() {
   const { sidebarOpen, setSidebarOpen } = useUIStore();
 
-  // 人気記事を取得
+  // 人気ページを取得
   const { data: popularPages } = useQuery({
     queryKey: ["popularPages"],
     queryFn: () => wikiAPI.getPopularPages(5),
     staleTime: 10 * 60 * 1000, // 10分
   });
 
-  // 最新記事を取得
+  // 最新ページを取得
   const { data: recentPages } = useQuery({
     queryKey: ["recentPages"],
     queryFn: () => wikiAPI.getPages({ limit: 5, offset: 0 }),
@@ -143,11 +143,11 @@ export function Sidebar() {
                 ))}
               </nav>
 
-              {/* 人気記事 */}
+              {/* 人気ページ */}
               <div className='mb-8'>
                 <h3 className='text-xs font-semibold text-koala-500 uppercase tracking-wide mb-3 flex items-center'>
                   <TrendingUp className='w-4 h-4 mr-1' />
-                  人気記事
+                  人気ページ
                 </h3>
                 <div className='space-y-2'>
                   {popularPages?.map((page, index) => (
@@ -178,17 +178,17 @@ export function Sidebar() {
                   ))}
                   {(!popularPages || popularPages.length === 0) && (
                     <p className='text-sm text-koala-500 text-center py-4'>
-                      記事がありません
+                      ページがありません
                     </p>
                   )}
                 </div>
               </div>
 
-              {/* 最新記事 */}
+              {/* 最新ページ */}
               <div className='mb-8'>
                 <h3 className='text-xs font-semibold text-koala-500 uppercase tracking-wide mb-3 flex items-center'>
                   <Clock className='w-4 h-4 mr-1' />
-                  最新記事
+                  最新ページ
                 </h3>
                 <div className='space-y-2'>
                   {recentPages?.pages?.slice(0, 5).map((page) => (
@@ -217,7 +217,7 @@ export function Sidebar() {
                   ))}
                   {(!recentPages?.pages || recentPages.pages.length === 0) && (
                     <p className='text-sm text-koala-500 text-center py-4'>
-                      記事がありません
+                      ページがありません
                     </p>
                   )}
                 </div>

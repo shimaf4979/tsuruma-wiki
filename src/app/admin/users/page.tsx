@@ -350,7 +350,7 @@ export default function AdminUsersPage() {
                             </div>
                             <div className='flex items-center space-x-2'>
                               <FileText className='w-4 h-4' />
-                              <span>{userData.pageCount || 0}記事</span>
+                              <span>{userData.pageCount || 0}ページ</span>
                             </div>
                             <div className='flex items-center space-x-2'>
                               <MessageCircle className='w-4 h-4' />

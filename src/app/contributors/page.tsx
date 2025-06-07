@@ -32,21 +32,21 @@ const roleConfig = {
     icon: Shield,
     color: "bg-purple-100 text-purple-800 border-purple-200",
     bgColor: "bg-purple-50",
-    description: "記事承認・ユーザー管理",
+    description: "ページ承認・ユーザー管理",
   },
   editor: {
     label: "エディター",
     icon: Edit,
     color: "bg-blue-100 text-blue-800 border-blue-200",
     bgColor: "bg-blue-50",
-    description: "記事作成・編集・即時公開",
+    description: "ページ作成・編集・即時公開",
   },
   contributor: {
     label: "コントリビューター",
     icon: UserPlus,
     color: "bg-green-100 text-green-800 border-green-200",
     bgColor: "bg-green-50",
-    description: "記事作成・コメント投稿",
+    description: "ページ作成・コメント投稿",
   },
 };
 
@@ -405,7 +405,7 @@ export default function ContributorsPage() {
                             <div className='text-lg font-semibold text-koala-900'>
                               {contributor.pageCount}
                             </div>
-                            <div className='text-xs text-koala-500'>記事</div>
+                            <div className='text-xs text-koala-500'>ページ</div>
                           </div>
 
                           <div>
@@ -473,7 +473,7 @@ export default function ContributorsPage() {
             </h3>
             <p className='text-koala-600 mb-6 max-w-2xl mx-auto'>
               鶴舞こあらWikiでは、地域を愛する皆さんの参加をお待ちしています。
-              記事を投稿して、地域の魅力を一緒に発信しましょう！
+              ページを投稿して、地域の魅力を一緒に発信しましょう！
             </p>
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
               <Link href='/register' className='btn-primary'>

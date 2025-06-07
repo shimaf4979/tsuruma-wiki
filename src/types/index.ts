@@ -37,7 +37,7 @@ export interface RegisterRequest {
   email: string;
 }
 
-// Wiki記事関連の型
+// Wikiページ関連の型
 export interface WikiPage {
   id: string;
   title: string;

@@ -108,7 +108,7 @@ export const userAPI = {
   },
 };
 
-// Wiki記事関連
+// Wikiページ関連
 export const wikiAPI = {
   getPages: async (params?: {
     status?: "published" | "draft";

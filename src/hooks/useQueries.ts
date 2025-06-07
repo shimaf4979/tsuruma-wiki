@@ -58,7 +58,7 @@ export function useAuth() {
   };
 }
 
-// Wiki記事関連のフック
+// Wikiページ関連のフック
 export function useWikiPages(params?: {
   search?: string;
   tag?: string;
@@ -100,15 +100,17 @@ export function useCreatePage() {
       queryClient.invalidateQueries({ queryKey: ["wikiPages"] });
       addToast({
         type: "success",
-        title: "記事を作成しました",
+        title: "ページを作成しました",
         description:
-          data.status === "published" ? "記事が公開されました" : "承認待ちです",
+          data.status === "published"
+            ? "ページが公開されました"
+            : "承認待ちです",
       });
     },
     onError: (error: any) => {
       addToast({
         type: "error",
-        title: "記事の作成に失敗しました",
+        title: "ページの作成に失敗しました",
         description: error.response?.data?.error || "エラーが発生しました",
       });
     },
@@ -126,13 +128,13 @@ export function useUpdatePage(pageId: string) {
       queryClient.invalidateQueries({ queryKey: ["wikiPages"] });
       addToast({
         type: "success",
-        title: "記事を更新しました",
+        title: "ページを更新しました",
       });
     },
     onError: (error: any) => {
       addToast({
         type: "error",
-        title: "記事の更新に失敗しました",
+        title: "ページの更新に失敗しました",
         description: error.response?.data?.error || "エラーが発生しました",
       });
     },
@@ -150,13 +152,13 @@ export function useDeletePage(pageId: string) {
       queryClient.removeQueries({ queryKey: ["wikiPage", pageId] });
       addToast({
         type: "success",
-        title: "記事を削除しました",
+        title: "ページを削除しました",
       });
     },
     onError: (error: any) => {
       addToast({
         type: "error",
-        title: "記事の削除に失敗しました",
+        title: "ページの削除に失敗しました",
         description: error.response?.data?.error || "エラーが発生しました",
       });
     },

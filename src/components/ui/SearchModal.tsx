@@ -114,7 +114,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                   setQuery(e.target.value);
                   setShowSuggestions(true);
                 }}
-                placeholder='記事やユーザーを検索...'
+                placeholder='ページやユーザーを検索...'
                 className='w-full pl-10 pr-10 py-3 border border-koala-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm'
               />
               <button
@@ -161,7 +161,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     検索のヒント
                   </h3>
                   <div className='space-y-2 text-sm text-koala-600'>
-                    <p>• 記事タイトルや内容で検索できます</p>
+                    <p>• ページタイトルや内容で検索できます</p>
                     <p>• ユーザー名でも検索可能です</p>
                     <p>• タグで絞り込み検索もできます</p>
                   </div>
@@ -209,12 +209,12 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                   </div>
                 ) : searchResults ? (
                   <div className='space-y-4'>
-                    {/* 記事結果 */}
+                    {/* ページ結果 */}
                     {searchResults.pages && searchResults.pages.length > 0 && (
                       <div>
                         <h3 className='text-sm font-semibold text-koala-700 mb-3 flex items-center'>
                           <FileText className='w-4 h-4 mr-2' />
-                          記事 ({searchResults.pages.length}件)
+                          ページ ({searchResults.pages.length}件)
                         </h3>
                         <div className='space-y-2'>
                           {searchResults.pages.slice(0, 5).map((page) => (

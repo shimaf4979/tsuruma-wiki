@@ -40,7 +40,7 @@ export async function generateMetadata({
     const user = await userAPI.getUser(userId);
     return {
       title: `${user.nickname}のプロフィール - TsurumaKoala Wiki`,
-      description: `${user.nickname}さんのプロフィールページです。投稿した記事一覧などを確認できます。`,
+      description: `${user.nickname}さんのプロフィールページです。投稿したページ一覧などを確認できます。`,
       openGraph: {
         title: `${user.nickname}のプロフィール`,
         description:

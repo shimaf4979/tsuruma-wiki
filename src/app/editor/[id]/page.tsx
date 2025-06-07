@@ -40,7 +40,7 @@ export async function generateMetadata({
       error
     );
     return {
-      title: "記事の編集",
+      title: "ページの編集",
     };
   }
 }

@@ -46,7 +46,7 @@ export default function AdminPage() {
     staleTime: 5 * 60 * 1000,
   });
 
-  // 承認待ち記事を取得
+  // 承認待ちページを取得
   const { data: pendingPages } = useQuery({
     queryKey: ["pendingPages"],
     queryFn: () => adminAPI.getPendingPages(5, 0),
@@ -84,7 +84,7 @@ export default function AdminPage() {
       changeLabel: "今月の新規",
     },
     {
-      title: "公開記事数",
+      title: "公開ページ数",
       value: stats?.totalPages || 0,
       icon: FileText,
       color: "bg-green-500",
@@ -118,8 +118,8 @@ export default function AdminPage() {
       color: "bg-blue-500",
     },
     {
-      title: "記事管理",
-      description: "承認待ち記事の確認",
+      title: "ページ管理",
+      description: "承認待ちページの確認",
       icon: FileText,
       href: "/admin/pages",
       color: "bg-green-500",
@@ -254,14 +254,14 @@ export default function AdminPage() {
             </div>
           </motion.div>
 
-          {/* 承認待ち記事 */}
+          {/* 承認待ちページ */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
           >
             <h2 className='text-xl font-semibold text-foreground mb-4 flex items-center'>
-              承認待ち記事
+              承認待ちページ
               {pendingPages && pendingPages.length > 0 && (
                 <span className='ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-destructive text-destructive-foreground'>
                   {pendingPages.length}
@@ -318,10 +318,10 @@ export default function AdminPage() {
                 <div className='card text-center py-8'>
                   <AlertTriangle className='w-12 h-12 text-muted-foreground mx-auto mb-4' />
                   <h3 className='font-medium text-foreground mb-2'>
-                    承認待ちの記事はありません
+                    承認待ちのページはありません
                   </h3>
                   <p className='text-sm text-muted-foreground'>
-                    新しい記事が投稿されるとここに表示されます
+                    新しいページが投稿されるとここに表示されます
                   </p>
                 </div>
               )}
@@ -329,7 +329,7 @@ export default function AdminPage() {
           </motion.div>
         </div>
 
-        {/* 人気記事 */}
+        {/* 人気ページ */}
         {stats?.topPages && stats.topPages.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -338,7 +338,7 @@ export default function AdminPage() {
             className='mt-8'
           >
             <h2 className='text-xl font-semibold text-foreground mb-4'>
-              人気記事 Top 5
+              人気ページ Top 5
             </h2>
             <div className='card'>
               <div className='space-y-4'>

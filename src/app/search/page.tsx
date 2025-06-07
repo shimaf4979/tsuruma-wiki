@@ -92,7 +92,7 @@ function SearchContent() {
           <div className='flex items-center space-x-1 bg-koala-100 rounded-lg p-1'>
             {[
               { value: "all", label: "全て", icon: Search },
-              { value: "pages", label: "記事", icon: FileText },
+              { value: "pages", label: "ページ", icon: FileText },
               { value: "users", label: "ユーザー", icon: User },
             ].map((item) => {
               const Icon = item.icon;
@@ -149,14 +149,14 @@ function SearchContent() {
             </div>
           ) : searchResults ? (
             <div className='space-y-6'>
-              {/* 記事結果 */}
+              {/* ページ結果 */}
               {(searchType === "all" || searchType === "pages") &&
                 searchResults.pages &&
                 searchResults.pages.length > 0 && (
                   <div>
                     <h2 className='text-xl font-semibold text-koala-900 mb-4 flex items-center'>
                       <FileText className='w-5 h-5 mr-2' />
-                      記事 ({searchResults.pages.length}件)
+                      ページ ({searchResults.pages.length}件)
                     </h2>
                     <div className='space-y-4'>
                       {searchResults.pages.map((page) => (

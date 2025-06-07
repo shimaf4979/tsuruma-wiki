@@ -30,7 +30,7 @@ export function WikiPageClient({ pageId }: WikiPageClientProps) {
   const { addToast, openModal } = useUIStore();
   const [showShareMenu, setShowShareMenu] = useState(false);
 
-  // 記事詳細を取得
+  // ページ詳細を取得
   const {
     data: page,
     isLoading,
@@ -41,20 +41,20 @@ export function WikiPageClient({ pageId }: WikiPageClientProps) {
     retry: 1,
   });
 
-  // 記事削除
+  // ページ削除
   const deletePageMutation = useMutation({
     mutationFn: () => wikiAPI.deletePage(pageId),
     onSuccess: () => {
       addToast({
         type: "success",
-        title: "記事を削除しました",
+        title: "ページを削除しました",
       });
       router.push("/pages");
     },
     onError: (error: { response?: { data?: { error?: string } } }) => {
       addToast({
         type: "error",
-        title: "記事の削除に失敗しました",
+        title: "ページの削除に失敗しました",
         description: error.response?.data?.error || "エラーが発生しました",
       });
     },
@@ -63,7 +63,7 @@ export function WikiPageClient({ pageId }: WikiPageClientProps) {
   const handleDelete = () => {
     openModal({
       type: "confirm",
-      title: "記事を削除しますか？",
+      title: "ページを削除しますか？",
       content: (
         <p className='text-koala-600'>
           この操作は取り消すことができません。本当に削除しますか？
@@ -132,7 +132,7 @@ export function WikiPageClient({ pageId }: WikiPageClientProps) {
             お探しのページは存在しないか、削除された可能性があります。
           </p>
           <Link href='/pages' className='btn-primary'>
-            記事一覧に戻る
+            ページ一覧に戻る
           </Link>
         </div>
       </div>
@@ -154,11 +154,11 @@ export function WikiPageClient({ pageId }: WikiPageClientProps) {
             className='inline-flex items-center text-koala-600 hover:text-koala-900 transition-colors'
           >
             <ArrowLeft className='w-4 h-4 mr-2' />
-            記事一覧に戻る
+            ページ一覧に戻る
           </Link>
         </motion.div>
 
-        {/* 記事ヘッダー */}
+        {/* ページヘッダー */}
         <motion.header
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -271,20 +271,38 @@ export function WikiPageClient({ pageId }: WikiPageClientProps) {
           )}
         </motion.header>
 
-        {/* 記事本文 */}
+        {/* ページ本文 */}
         <motion.article
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className='prose prose-lg max-w-none mb-12'
+          className='prose prose-lg max-w-none mb-12 
+          [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mt-12 [&_h1]:mb-8 [&_h1]:bg-gradient-to-r [&_h1]:from-primary-50 [&_h1]:to-transparent [&_h1]:text-primary-900 [&_h1]:px-6 [&_h1]:py-4 [&_h1]:rounded-r-lg [&_h1]:border-l-8 [&_h1]:border-primary-500 [&_h1]:w-full [&_h1]:shadow-sm
+          [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mt-10 [&_h2]:mb-6 [&_h2]:bg-gradient-to-r [&_h2]:from-koala-50 [&_h2]:to-transparent [&_h2]:text-koala-900 [&_h2]:px-5 [&_h2]:py-3 [&_h2]:rounded-r-md [&_h2]:border-l-6 [&_h2]:border-koala-400 [&_h2]:w-full [&_h2]:shadow-sm
+          [&_h3]:text-xl [&_h3]:font-bold [&_h3]:mt-8 [&_h3]:mb-4 [&_h3]:text-koala-800 [&_h3]:border-b-2 [&_h3]:border-koala-200 [&_h3]:pb-2 [&_h3]:w-full [&_h3]:bg-gradient-to-r [&_h3]:from-koala-50/30 [&_h3]:to-transparent
+          [&_p]:mb-4 [&_p]:leading-7
+          [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ul>li]:mb-2
+          [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4 [&_ol>li]:mb-2
+          [&_blockquote]:border-l-4 [&_blockquote]:border-primary-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-koala-600 [&_blockquote]:my-4 [&_blockquote]:bg-primary-50/50 [&_blockquote]:rounded-r-lg [&_blockquote]:py-2
+          [&_pre]:bg-koala-900 [&_pre]:text-white [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:my-3 [&_pre]:overflow-x-auto
+          [&_code]:bg-koala-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-sm [&_code]:font-mono [&_code]:text-koala-900
+          [&_a]:text-primary-600 [&_a]:hover:text-primary-700 [&_a]:underline [&_a]:decoration-primary-300 [&_a]:hover:decoration-primary-500 [&_a]:transition-colors [&_a]:duration-200
+          [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-lg [&_img]:my-4 [&_img]:shadow-md [&_img]:hover:shadow-lg [&_img]:transition-shadow [&_img]:duration-200
+          [&_hr]:my-8 [&_hr]:border-koala-200
+          [&_table]:w-full [&_table]:border-collapse [&_table]:my-4 [&_table]:rounded-lg [&_table]:overflow-hidden [&_table]:shadow-sm
+          [&_thead]:bg-primary-50
+          [&_th]:border [&_th]:border-koala-300 [&_th]:px-4 [&_th]:py-2 [&_th]:text-left [&_th]:bg-primary-50/50 [&_th]:text-primary-900 [&_th]:font-semibold
+          [&_td]:border [&_td]:border-koala-300 [&_td]:px-4 [&_td]:py-2
+          [&_div]:mb-4
+          [&_ul>li::marker]:text-primary-500
+          [&_ol>li::marker]:text-primary-500 [&_ol>li::marker]:font-medium
+          [&_pre_code]:bg-transparent [&_pre_code]:text-white [&_pre_code]:p-0
+          [&_tbody_tr:hover]:bg-koala-50/50'
         >
-          <div
-            dangerouslySetInnerHTML={{ __html: page.content }}
-            className='text-koala-800 leading-relaxed'
-          />
+          <div dangerouslySetInnerHTML={{ __html: page.content }} />
         </motion.article>
 
-        {/* 記事フッター */}
+        {/* ページフッター */}
         <motion.footer
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

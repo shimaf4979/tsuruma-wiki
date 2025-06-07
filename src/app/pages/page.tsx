@@ -86,9 +86,9 @@ function PagesContent() {
           transition={{ duration: 0.5 }}
           className='mb-8'
         >
-          <h1 className='text-3xl font-bold text-koala-900 mb-4'>記事一覧</h1>
+          <h1 className='text-3xl font-bold text-koala-900 mb-4'>ページ一覧</h1>
           <p className='text-koala-600'>
-            鶴舞こあらに関する記事を探索してみましょう
+            鶴舞こあらに関するページを探索してみましょう
           </p>
         </motion.div>
 
@@ -108,7 +108,7 @@ function PagesContent() {
                   type='text'
                   value={localFilters.search}
                   onChange={(e) => handleFilterChange("search", e.target.value)}
-                  placeholder='記事を検索...'
+                  placeholder='ページを検索...'
                   className='input pl-10 w-full'
                 />
               </div>
@@ -255,7 +255,7 @@ function PagesContent() {
               {/* 結果数表示 */}
               <div className='mb-6'>
                 <p className='text-sm text-koala-600'>
-                  {pagesData.total}件の記事が見つかりました
+                  {pagesData.total}件のページが見つかりました
                 </p>
               </div>
 
@@ -413,13 +413,13 @@ function PagesContent() {
             <div className='text-center py-12'>
               <BookOpen className='w-16 h-16 text-koala-300 mx-auto mb-4' />
               <h3 className='text-lg font-semibold text-koala-700 mb-2'>
-                記事が見つかりませんでした
+                ページが見つかりませんでした
               </h3>
               <p className='text-koala-500 mb-4'>
-                検索条件を変更するか、新しい記事を作成してみてください
+                検索条件を変更するか、新しいページを作成してみてください
               </p>
               <Link href='/editor' className='btn-primary'>
-                記事を作成
+                ページを作成
               </Link>
             </div>
           )}

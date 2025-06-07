@@ -34,7 +34,7 @@ export default function AdminPagesPage() {
     offset: 0,
   });
 
-  // 記事一覧を取得
+  // ページ一覧を取得
   const { data: pagesData, isLoading } = useQuery({
     queryKey: ["adminPages", filters],
     queryFn: () => {
@@ -54,7 +54,7 @@ export default function AdminPagesPage() {
     staleTime: 1 * 60 * 1000,
   });
 
-  // 記事承認
+  // ページ承認
   const approvePageMutation = useMutation({
     mutationFn: (pageId: string) => wikiAPI.approvePage(pageId),
     onSuccess: () => {
@@ -62,19 +62,19 @@ export default function AdminPagesPage() {
       queryClient.invalidateQueries({ queryKey: ["adminStats"] });
       addToast({
         type: "success",
-        title: "記事を承認しました",
+        title: "ページを承認しました",
       });
     },
     onError: (error: { response?: { data?: { error?: string } } }) => {
       addToast({
         type: "error",
-        title: "記事の承認に失敗しました",
+        title: "ページの承認に失敗しました",
         description: error.response?.data?.error || "エラーが発生しました",
       });
     },
   });
 
-  // 記事削除
+  // ページ削除
   const deletePageMutation = useMutation({
     mutationFn: (pageId: string) => wikiAPI.deletePage(pageId),
     onSuccess: () => {
@@ -82,13 +82,13 @@ export default function AdminPagesPage() {
       queryClient.invalidateQueries({ queryKey: ["adminStats"] });
       addToast({
         type: "success",
-        title: "記事を削除しました",
+        title: "ページを削除しました",
       });
     },
     onError: (error: { response?: { data?: { error?: string } } }) => {
       addToast({
         type: "error",
-        title: "記事の削除に失敗しました",
+        title: "ページの削除に失敗しました",
         description: error.response?.data?.error || "エラーが発生しました",
       });
     },
@@ -136,7 +136,7 @@ export default function AdminPagesPage() {
   const handleApprove = (pageId: string, title: string) => {
     openModal({
       type: "confirm",
-      title: "記事を承認しますか？",
+      title: "ページを承認しますか？",
       content: (
         <div>
           <p className='text-muted-foreground mb-4'>
@@ -156,7 +156,7 @@ export default function AdminPagesPage() {
   const handleDelete = (pageId: string, title: string) => {
     openModal({
       type: "confirm",
-      title: "記事を削除しますか？",
+      title: "ページを削除しますか？",
       content: (
         <div>
           <p className='text-muted-foreground mb-4'>
@@ -164,7 +164,7 @@ export default function AdminPagesPage() {
           </p>
           <div className='bg-red-50 border border-red-200 rounded-lg p-3'>
             <p className='text-sm text-red-800'>
-              この操作は取り消すことができません。記事のコメントも同時に削除されます。
+              この操作は取り消すことができません。ページのコメントも同時に削除されます。
             </p>
           </div>
         </div>
@@ -237,10 +237,10 @@ export default function AdminPagesPage() {
         >
           <h1 className='text-3xl font-bold text-foreground mb-2 flex items-center'>
             <FileText className='w-8 h-8 mr-3 text-primary' />
-            記事管理
+            ページ管理
           </h1>
           <p className='text-muted-foreground'>
-            記事の承認・管理と公開状況を確認
+            ページの承認・管理と公開状況を確認
           </p>
         </motion.div>
 
@@ -284,7 +284,7 @@ export default function AdminPagesPage() {
                     onChange={(e) =>
                       handleFilterChange("search", e.target.value)
                     }
-                    placeholder='記事タイトルで検索...'
+                    placeholder='ページタイトルで検索...'
                     className='input pl-10 w-full'
                   />
                 </div>
@@ -312,7 +312,7 @@ export default function AdminPagesPage() {
           </div>
         </motion.div>
 
-        {/* 記事一覧 */}
+        {/* ページ一覧 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -344,11 +344,11 @@ export default function AdminPagesPage() {
                   {Array.isArray(pagesData)
                     ? pagesData.length
                     : pagesData.total}
-                  件の記事が見つかりました
+                  件のページが見つかりました
                 </p>
               </div>
 
-              {/* 記事カード */}
+              {/* ページカード */}
               <div className='space-y-4'>
                 {(Array.isArray(pagesData)
                   ? pagesData
@@ -481,12 +481,12 @@ export default function AdminPagesPage() {
               <AlertCircle className='w-16 h-16 text-muted-foreground mx-auto mb-4' />
               <h3 className='text-lg font-semibold text-foreground mb-2'>
                 {filters.status === "draft"
-                  ? "承認待ちの記事はありません"
-                  : "記事が見つかりませんでした"}
+                  ? "承認待ちのページはありません"
+                  : "ページが見つかりませんでした"}
               </h3>
               <p className='text-muted-foreground mb-4'>
                 {filters.status === "draft"
-                  ? "新しい記事が投稿されるとここに表示されます"
+                  ? "新しいページが投稿されるとここに表示されます"
                   : "検索条件を変更してみてください"}
               </p>
             </div>

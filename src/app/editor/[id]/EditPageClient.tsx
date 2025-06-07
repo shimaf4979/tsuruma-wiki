@@ -27,7 +27,7 @@ export function EditPageClient({ pageId }: EditPageClientProps) {
   const [isPreview, setIsPreview] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
-  // 編集対象の記事を取得
+  // 編集対象のページを取得
   const { data: page, isLoading } = useQuery({
     queryKey: ["page", pageId],
     queryFn: () => wikiAPI.getPage(pageId),
@@ -58,7 +58,7 @@ export function EditPageClient({ pageId }: EditPageClientProps) {
         addToast({
           type: "error",
           title: "編集権限がありません",
-          description: "この記事を編集する権限がありません",
+          description: "このページを編集する権限がありません",
         });
         router.push(`/wiki/${pageId}`);
         return;
@@ -102,7 +102,7 @@ export function EditPageClient({ pageId }: EditPageClientProps) {
     return () => clearInterval(interval);
   }, [title, content, tags, hasChanges, saveDraft]);
 
-  // 記事更新
+  // ページ更新
   const updatePageMutation = useMutation({
     mutationFn: (data: { title: string; content: string; tags: string[] }) =>
       wikiAPI.updatePage(pageId, data),
@@ -110,7 +110,7 @@ export function EditPageClient({ pageId }: EditPageClientProps) {
       queryClient.invalidateQueries({ queryKey: ["page", pageId] });
       addToast({
         type: "success",
-        title: "記事を更新しました",
+        title: "ページを更新しました",
       });
       clearCurrentDraft();
       router.push(`/wiki/${pageId}`);
@@ -118,7 +118,7 @@ export function EditPageClient({ pageId }: EditPageClientProps) {
     onError: (error: { response?: { data?: { error?: string } } }) => {
       addToast({
         type: "error",
-        title: "記事の更新に失敗しました",
+        title: "ページの更新に失敗しました",
         description: error.response?.data?.error || "エラーが発生しました",
       });
     },
@@ -212,10 +212,10 @@ export function EditPageClient({ pageId }: EditPageClientProps) {
       <div className='min-h-screen bg-white flex items-center justify-center'>
         <div className='text-center'>
           <h1 className='text-2xl font-bold text-koala-900 mb-4'>
-            記事が見つかりません
+            ページが見つかりません
           </h1>
           <p className='text-koala-600 mb-8'>
-            お探しの記事は存在しないか、削除された可能性があります。
+            お探しのページは存在しないか、削除された可能性があります。
           </p>
           <button onClick={() => router.back()} className='btn-primary'>
             戻る
@@ -247,7 +247,9 @@ export function EditPageClient({ pageId }: EditPageClientProps) {
           {/* ヘッダー */}
           <div className='flex items-center justify-between mb-8'>
             <div>
-              <h1 className='text-3xl font-bold text-koala-900'>記事を編集</h1>
+              <h1 className='text-3xl font-bold text-koala-900'>
+                ページを編集
+              </h1>
               {hasChanges && (
                 <p className='text-sm text-orange-600 mt-1'>
                   未保存の変更があります
@@ -291,7 +293,7 @@ export function EditPageClient({ pageId }: EditPageClientProps) {
               type='text'
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder='記事のタイトルを入力してください'
+              placeholder='ページのタイトルを入力してください'
               className='input w-full text-lg'
               maxLength={200}
             />
@@ -345,7 +347,7 @@ export function EditPageClient({ pageId }: EditPageClientProps) {
             </label>
             {isPreview ? (
               <div className='border border-koala-300 rounded-lg p-6 min-h-[400px] bg-koala-50'>
-                <div className='prose max-w-none'>
+                <div className='prose max-w-none [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mt-12 [&_h1]:mb-8 [&_h1]:bg-gradient-to-r [&_h1]:from-primary-50 [&_h1]:to-transparent [&_h1]:text-primary-900 [&_h1]:px-6 [&_h1]:py-4 [&_h1]:rounded-r-lg [&_h1]:border-l-8 [&_h1]:border-primary-500 [&_h1]:w-full [&_h1]:shadow-sm [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mt-10 [&_h2]:mb-6 [&_h2]:bg-gradient-to-r [&_h2]:from-koala-50 [&_h2]:to-transparent [&_h2]:text-koala-900 [&_h2]:px-5 [&_h2]:py-3 [&_h2]:rounded-r-md [&_h2]:border-l-6 [&_h2]:border-koala-400 [&_h2]:w-full [&_h2]:shadow-sm [&_h3]:text-xl [&_h3]:font-bold [&_h3]:mt-8 [&_h3]:mb-4 [&_h3]:text-koala-800 [&_h3]:border-b-2 [&_h3]:border-koala-200 [&_h3]:pb-2 [&_h3]:w-full [&_h3]:bg-gradient-to-r [&_h3]:from-koala-50/30 [&_h3]:to-transparent [&_p]:mb-4 [&_p]:leading-7 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ul>li]:mb-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4 [&_ol>li]:mb-2 [&_blockquote]:border-l-4 [&_blockquote]:border-primary-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-koala-600 [&_blockquote]:my-4 [&_blockquote]:bg-primary-50/50 [&_blockquote]:rounded-r-lg [&_blockquote]:py-2 [&_pre]:bg-koala-900 [&_pre]:text-white [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:my-3 [&_pre]:overflow-x-auto [&_code]:bg-koala-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-sm [&_code]:font-mono [&_code]:text-koala-900 [&_a]:text-primary-600 [&_a]:hover:text-primary-700 [&_a]:underline [&_a]:decoration-primary-300 [&_a]:hover:decoration-primary-500 [&_a]:transition-colors [&_a]:duration-200 [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-lg [&_img]:my-4 [&_img]:shadow-md [&_img]:hover:shadow-lg [&_img]:transition-shadow [&_img]:duration-200 [&_hr]:my-8 [&_hr]:border-koala-200 [&_table]:w-full [&_table]:border-collapse [&_table]:my-4 [&_table]:rounded-lg [&_table]:overflow-hidden [&_table]:shadow-sm [&_thead]:bg-primary-50 [&_th]:border [&_th]:border-koala-300 [&_th]:px-4 [&_th]:py-2 [&_th]:text-left [&_th]:bg-primary-50/50 [&_th]:text-primary-900 [&_th]:font-semibold [&_td]:border [&_td]:border-koala-300 [&_td]:px-4 [&_td]:py-2 [&_div]:mb-4 [&_ul>li::marker]:text-primary-500 [&_ol>li::marker]:text-primary-500 [&_ol>li::marker]:font-medium [&_pre_code]:bg-transparent [&_pre_code]:text-white [&_pre_code]:p-0 [&_tbody_tr:hover]:bg-koala-50/50'>
                   <h1 className='text-3xl font-bold text-koala-900 mb-4'>
                     {title || "タイトル未設定"}
                   </h1>
@@ -361,14 +363,14 @@ export function EditPageClient({ pageId }: EditPageClientProps) {
               <TiptapEditor
                 content={content}
                 onContentChange={setContent}
-                placeholder='記事の本文を入力してください...'
+                placeholder='ページの本文を入力してください...'
               />
             )}
           </div>
 
-          {/* 記事情報 */}
+          {/* ページ情報 */}
           <div className='bg-koala-50 border border-koala-200 rounded-lg p-4'>
-            <h3 className='font-medium text-koala-900 mb-2'>記事情報</h3>
+            <h3 className='font-medium text-koala-900 mb-2'>ページ情報</h3>
             <div className='text-sm text-koala-600 space-y-1'>
               <p>作成者: {page.author.nickname}</p>
               <p>

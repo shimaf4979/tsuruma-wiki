@@ -385,13 +385,13 @@ function HomeContent() {
                   className='btn-primary text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center bg-koala-600 hover:bg-koala-700 text-white'
                 >
                   <BookOpen className='w-5 h-5 mr-2' />
-                  記事を読む
+                  ページを読む
                 </Link>
                 <Link
                   href='/editor'
                   className='btn-outline text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border-2 border-koala-600 text-koala-600 hover:bg-koala-50'
                 >
-                  記事を作成
+                  ページを作成
                 </Link>
               </div>
             </motion.div>

@@ -96,9 +96,9 @@ export default function AdminLogsPage() {
       case "role_change":
         return "権限変更";
       case "page_approve":
-        return "記事承認";
+        return "ページ承認";
       case "page_delete":
-        return "記事削除";
+        return "ページ削除";
       case "user_suspend":
         return "ユーザー停止";
       case "user_activate":
@@ -178,8 +178,8 @@ export default function AdminLogsPage() {
   const actionOptions = [
     { value: "", label: "全てのアクション" },
     { value: "role_change", label: "権限変更" },
-    { value: "page_approve", label: "記事承認" },
-    { value: "page_delete", label: "記事削除" },
+    { value: "page_approve", label: "ページ承認" },
+    { value: "page_delete", label: "ページ削除" },
     { value: "user_suspend", label: "ユーザー停止" },
     { value: "user_activate", label: "ユーザー復活" },
     { value: "comment_delete", label: "コメント削除" },
