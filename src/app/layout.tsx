@@ -17,9 +17,6 @@ export const metadata: Metadata = {
   ),
   title: "鶴舞こあらWiki",
   description: "みんなで作る鶴舞こあらの情報Wiki",
-  icons: {
-    icon: "/g108.png",
-  },
   openGraph: {
     title: "鶴舞こあらWiki",
     description: "みんなで作る鶴舞こあらの情報Wiki",
