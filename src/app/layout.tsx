@@ -18,7 +18,27 @@ export const metadata: Metadata = {
   title: "鶴舞こあらWiki",
   description: "みんなで作る鶴舞こあらの情報Wiki",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/g108.png",
+  },
+  openGraph: {
+    title: "鶴舞こあらWiki",
+    description: "みんなで作る鶴舞こあらの情報Wiki",
+    type: "website",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://tsuruma-coala-wiki.com",
+    images: [
+      {
+        url: "/home.png",
+        width: 1200,
+        height: 630,
+        alt: "鶴舞こあらWiki",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "鶴舞こあらWiki",
+    description: "みんなで作る鶴舞こあらの情報Wiki",
+    images: ["/home.png"],
   },
 };
 
