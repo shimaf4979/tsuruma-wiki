@@ -49,6 +49,7 @@ export interface WikiPage {
   updatedAt: string;
   status: "published" | "draft" | "archived";
   viewCount: number;
+  thumbnailUrl?: string;
 }
 
 export interface WikiPageCreate {

@@ -29,15 +29,17 @@ const api = axios.create({
 
 // リクエストインターセプター（認証トークンの自動付与）
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("auth-storage");
-  if (token) {
-    try {
-      const parsed = JSON.parse(token);
-      if (parsed.state?.token) {
-        config.headers.Authorization = `Bearer ${parsed.state.token}`;
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("auth-storage");
+    if (token) {
+      try {
+        const parsed = JSON.parse(token);
+        if (parsed.state?.token) {
+          config.headers.Authorization = `Bearer ${parsed.state.token}`;
+        }
+      } catch (error) {
+        console.error("Token parsing error:", error);
       }
-    } catch (error) {
-      console.error("Token parsing error:", error);
     }
   }
   return config;
@@ -52,6 +54,17 @@ api.interceptors.response.use(
   }
 );
 
+// サーバーサイドでのビルド時など、特殊な状況で使用する管理者用APIクライアント
+// 環境変数 `ADMIN_API_TOKEN` に設定されたトークンを使用します。
+const serverAdminApi = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${process.env.ADMIN_API_TOKEN}`,
+  },
+});
+
 // APIクライアント関数群
 
 // ユーザー関連
@@ -59,7 +72,6 @@ export const userAPI = {
   getMe: async (): Promise<User> => {
     const response = await api.get<{ user: User }>("/api/users/me");
     const userData = response.data.user;
-    console.log("userData", userData);
     return {
       id: userData.id,
       nickname: userData.nickname,
@@ -78,7 +90,6 @@ export const userAPI = {
 
   getUser: async (userId: string): Promise<User> => {
     const response = await api.get<{ user: User }>(`/api/users/${userId}`);
-    console.log("response.data.user", response.data.user);
     return response.data.user;
   },
 
@@ -247,7 +258,12 @@ export const adminAPI = {
     limit?: number;
     offset?: number;
   }) => {
-    const response = await api.get("/api/admin/users", { params });
+    // サーバーサイドでのビルド時には ADMIN_API_TOKEN を使用する
+    const client =
+      typeof window === "undefined" && process.env.ADMIN_API_TOKEN
+        ? serverAdminApi
+        : api;
+    const response = await client.get("/api/admin/users", { params });
     return response.data;
   },
 

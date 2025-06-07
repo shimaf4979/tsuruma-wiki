@@ -46,7 +46,6 @@ export function Navbar() {
   const navItems = [
     { href: "/about", label: "こあらについて" },
     { href: "/pages", label: "ページ一覧" },
-    { href: "/contact", label: "お問い合わせ" },
     { href: "/editor", label: "新規作成", icon: PlusCircle },
   ];
 

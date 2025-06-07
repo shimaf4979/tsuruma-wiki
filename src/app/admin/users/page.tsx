@@ -22,7 +22,7 @@ import { User } from "../../../types";
 export default function AdminUsersPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { user, isAuthenticated } = useAuthStore();
+  const { user, isAuthenticated, isInitialized } = useAuthStore();
   const { addToast, openModal } = useUIStore();
 
   const [filters, setFilters] = useState({
@@ -32,17 +32,6 @@ export default function AdminUsersPage() {
     offset: 0,
   });
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
-
-  // 権限チェック
-  React.useEffect(() => {
-    if (
-      !isAuthenticated ||
-      (user?.role !== "admin" && user?.role !== "moderator")
-    ) {
-      router.push("/");
-      return;
-    }
-  }, [isAuthenticated, user, router]);
 
   // ユーザー一覧を取得
   const { data: usersData, isLoading } = useQuery({
@@ -79,6 +68,26 @@ export default function AdminUsersPage() {
       });
     },
   });
+
+  // 認証チェック
+  React.useEffect(() => {
+    // 初期化が完了していない場合は待機
+    if (!isInitialized) {
+      return;
+    }
+
+    // 初期化完了後、認証されていない場合はログイン画面へ
+    if (!isAuthenticated) {
+      router.push("/");
+      return;
+    }
+
+    // 権限チェック
+    if (user?.role !== "admin" && user?.role !== "moderator") {
+      router.push("/");
+      return;
+    }
+  }, [isAuthenticated, isInitialized, user, router]);
 
   const handleRoleChange = (
     userId: string,
@@ -145,6 +154,18 @@ export default function AdminUsersPage() {
     { value: "moderator", label: "モデレーター" },
     { value: "admin", label: "管理者" },
   ];
+
+  // 初期化中または認証されていない場合はローディング表示
+  if (!isInitialized) {
+    return (
+      <div className='min-h-screen bg-background flex items-center justify-center'>
+        <div className='text-center'>
+          <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4'></div>
+          <p className='text-muted-foreground'>読み込み中...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (
     !isAuthenticated ||

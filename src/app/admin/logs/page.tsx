@@ -19,9 +19,10 @@ import { useQuery } from "@tanstack/react-query";
 import { adminAPI } from "../../../lib/api";
 import { useAuthStore, useUIStore } from "../../../store";
 import { Log } from "../../../types";
+
 export default function AdminLogsPage() {
   const router = useRouter();
-  const { user, isAuthenticated } = useAuthStore();
+  const { user, isAuthenticated, isInitialized } = useAuthStore();
   const { addToast } = useUIStore();
 
   const [filters, setFilters] = useState({
@@ -31,14 +32,6 @@ export default function AdminLogsPage() {
     limit: 50,
     offset: 0,
   });
-
-  // 権限チェック
-  React.useEffect(() => {
-    if (!isAuthenticated || user?.role !== "admin") {
-      router.push("/");
-      return;
-    }
-  }, [isAuthenticated, user, router]);
 
   // ログ一覧を取得
   const {
@@ -57,6 +50,42 @@ export default function AdminLogsPage() {
     enabled: isAuthenticated && user?.role === "admin",
     staleTime: 30 * 1000, // 30秒
   });
+
+  // 認証チェック
+  React.useEffect(() => {
+    // 初期化が完了していない場合は待機
+    if (!isInitialized) {
+      return;
+    }
+
+    // 初期化完了後、認証されていない場合はログイン画面へ
+    if (!isAuthenticated) {
+      router.push("/");
+      return;
+    }
+
+    // 権限チェック
+    if (user?.role !== "admin") {
+      router.push("/");
+      return;
+    }
+  }, [isAuthenticated, isInitialized, user, router]);
+
+  // 初期化中または認証されていない場合はローディング表示
+  if (!isInitialized) {
+    return (
+      <div className='min-h-screen bg-background flex items-center justify-center'>
+        <div className='text-center'>
+          <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4'></div>
+          <p className='text-muted-foreground'>読み込み中...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated || user?.role !== "admin") {
+    return null;
+  }
 
   const handleFilterChange = (key: string, value: string | number) => {
     setFilters((prev) => ({ ...prev, [key]: value, offset: 0 }));
@@ -187,10 +216,6 @@ export default function AdminLogsPage() {
       });
     }
   };
-
-  if (!isAuthenticated || user?.role !== "admin") {
-    return null;
-  }
 
   return (
     <div className='min-h-screen bg-background'>
