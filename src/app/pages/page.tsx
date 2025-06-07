@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, Suspense } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -11,21 +11,18 @@ import {
   User,
   Tag,
   Search,
-  Filter,
   Grid,
   List,
   ChevronDown,
-  X,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { wikiAPI, searchAPI } from "../../lib/api";
+import { wikiAPI } from "../../lib/api";
 
 function PagesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [showFilters, setShowFilters] = useState(false);
   const [showFilterBar, setShowFilterBar] = useState(false);
   const [localFilters, setLocalFilters] = useState({
     search: searchParams.get("search") || "",
@@ -47,11 +44,11 @@ function PagesContent() {
   });
 
   // 人気タグを取得
-  const { data: popularTags } = useQuery({
-    queryKey: ["popularTags"],
-    queryFn: () => searchAPI.getTags(20),
-    staleTime: 15 * 60 * 1000,
-  });
+  // const { data: popularTags } = useQuery({
+  //   queryKey: ["popularTags"],
+  //   queryFn: () => searchAPI.getTags(20),
+  //   staleTime: 15 * 60 * 1000,
+  // });
 
   const handleFilterChange = (key: string, value: string) => {
     const newFilters = { ...localFilters, [key]: value };
@@ -67,10 +64,10 @@ function PagesContent() {
     router.push(newUrl);
   };
 
-  const clearFilters = () => {
-    setLocalFilters({ search: "", tag: "", sort: "recent" });
-    router.push("/pages");
-  };
+  // const clearFilters = () => {
+  //   setLocalFilters({ search: "", tag: "", sort: "recent" });
+  //   router.push("/pages");
+  // };
 
   const sortOptions = [
     { value: "recent", label: "最新順", icon: Clock },
