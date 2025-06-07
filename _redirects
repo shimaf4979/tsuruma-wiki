@@ -1,0 +1,18 @@
+# Cloudflare Pages用リダイレクト設定
+
+# SPAルーティング対応（Next.js）
+/*    /index.html   200
+
+# 旧パス対応
+/home /  301
+/articles /pages  301
+/posts /pages  301
+
+# APIリクエストをバックエンドにプロキシ
+/api/* https://api.tsuruma-koala.com/api/:splat 200
+
+# 管理者ページ保護（例）
+/admin/* /admin/index.html 200! Role=admin
+
+# 404ページ
+/* /404.html 404

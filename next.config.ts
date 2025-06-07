@@ -4,10 +4,10 @@ import { Configuration as WebpackConfiguration } from "webpack";
 
 const nextConfig: NextConfig = {
   // Cloudflare Pages用の設定
-  output: "export",
+  // output: "export",
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
-  distDir: "out",
+  // distDir: "out",
 
   // 画像最適化をCloudflareに委任
   images: {
