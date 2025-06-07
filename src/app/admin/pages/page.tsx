@@ -209,6 +209,9 @@ export default function AdminPagesPage() {
     { value: "archived", label: "アーカイブ", icon: FileText },
   ];
 
+  console.log("filters:", filters);
+  console.log("pagesData:", pagesData);
+
   return (
     <div className='min-h-screen bg-background'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
@@ -336,7 +339,10 @@ export default function AdminPagesPage() {
                 </div>
               ))}
             </div>
-          ) : pagesData && pagesData.length > 0 ? (
+          ) : pagesData &&
+            (Array.isArray(pagesData)
+              ? pagesData.length > 0
+              : pagesData.pages?.length > 0) ? (
             <>
               {/* 結果数表示 */}
               <div className='mb-6'>
