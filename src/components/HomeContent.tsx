@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { motion } from "framer-motion";
 import { Video } from "lucide-react";
 import { YouTubeVideos } from "./YouTubeVideos";
 import Link from "next/link";
+import { LoadingImages } from "./ui/LoadingImages";
 
 export function HomeContent() {
   const [isWiggle, setIsWiggle] = useState(false);
@@ -13,10 +14,10 @@ export function HomeContent() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.1 }}
-      className='min-h-screen bg-white'
+      className='min-h-screen bg-gradient-to-b from-white to-gray-50 '
     >
       {/* ヒーローセクション */}
-      <section className='relative bg-gradient-to-b from-white to-gray-50 pt-4 '>
+      <section className='relative pt-4 '>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
             <motion.div
@@ -75,9 +76,9 @@ export function HomeContent() {
               transition={{ duration: 0.3 }}
               className='inline-block'
             >
-              <h2 className='text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3'>
-                <Video className='w-8 h-8 text-primary-500' />
-                <Link href='/stream'>
+              <Link href='/stream'>
+                <h2 className='text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3'>
+                  <Video className='w-8 h-8 text-primary-500' />
                   <div className='relative font-["Mochiy_Pop_One"] text-primary-600 text-xl tracking-wider cursor-pointer inline-block'>
                     最新の配信へ
                     <motion.div
@@ -87,11 +88,13 @@ export function HomeContent() {
                       transition={{ duration: 0.5, delay: 0.2 }}
                     />
                   </div>
-                </Link>
-              </h2>
+                </h2>
+              </Link>
             </motion.div>
           </div>
-          <YouTubeVideos />
+          <Suspense fallback={<LoadingImages />}>
+            <YouTubeVideos />
+          </Suspense>
         </div>
       </section>
     </motion.div>

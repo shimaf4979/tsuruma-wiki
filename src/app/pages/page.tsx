@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -17,8 +17,9 @@ import {
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { wikiAPI } from "../../lib/api";
+import { LoadingImages } from "@/components/ui/LoadingImages";
 
-function PagesContent() {
+export default function PagesPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -74,6 +75,10 @@ function PagesContent() {
     { value: "popular", label: "人気順", icon: TrendingUp },
     { value: "title", label: "タイトル順", icon: BookOpen },
   ];
+
+  if (isLoading) {
+    return <LoadingImages />;
+  }
 
   return (
     <div className='min-h-screen bg-white'>
@@ -186,21 +191,7 @@ function PagesContent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.1, delay: 0.02 }}
         >
-          {isLoading ? (
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-              {Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className='card animate-pulse'>
-                  <div className='h-4 bg-koala-200 rounded mb-3'></div>
-                  <div className='h-3 bg-koala-200 rounded mb-2'></div>
-                  <div className='h-3 bg-koala-200 rounded w-2/3 mb-4'></div>
-                  <div className='flex justify-between items-center'>
-                    <div className='h-3 bg-koala-200 rounded w-1/3'></div>
-                    <div className='h-3 bg-koala-200 rounded w-1/4'></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : pagesData?.pages && pagesData.pages.length > 0 ? (
+          {pagesData?.pages && pagesData.pages.length > 0 ? (
             <>
               {/* 結果数表示 */}
               <div className='mb-6 flex justify-between items-center'>
@@ -392,13 +383,5 @@ function PagesContent() {
         </motion.div>
       </div>
     </div>
-  );
-}
-
-export default function PagesPage() {
-  return (
-    <Suspense fallback={<div>読み込み中...</div>}>
-      <PagesContent />
-    </Suspense>
   );
 }

@@ -1,13 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { YouTubeVideos } from "@/components/YouTubeVideos";
 import { Video } from "lucide-react";
 import { motion } from "framer-motion";
+import { LoadingImages } from "@/components/ui/LoadingImages";
 
 export default function StreamPage() {
   return (
-    <div className='min-h-screen bg-white py-8'>
+    <div className='min-h-screen bg-white py-12'>
       <div className='max-w-5xl mx-auto px-4'>
         <h2 className='text-3xl font-bold text-gray-900 flex items-center justify-center gap-3 mb-8'>
           <Video className='w-8 h-8 text-primary-500' />
@@ -22,7 +23,9 @@ export default function StreamPage() {
             />
           </div>
         </h2>
-        <YouTubeVideos />
+        <Suspense fallback={<LoadingImages />}>
+          <YouTubeVideos />
+        </Suspense>
       </div>
     </div>
   );

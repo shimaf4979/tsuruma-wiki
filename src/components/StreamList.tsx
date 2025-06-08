@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
+import { LoadingImages } from "./ui/LoadingImages";
 
 interface Video {
   id: string;
@@ -11,6 +12,10 @@ interface Video {
 }
 
 export const StreamList: React.FC<{ videos: Video[] }> = ({ videos }) => {
+  if (!videos) {
+    return <LoadingImages />;
+  }
+
   if (videos.length === 0) {
     return (
       <div className='text-center text-gray-500 p-4'>

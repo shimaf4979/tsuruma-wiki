@@ -13,6 +13,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
+  // ページ遷移時にスクロール位置をトップに設定
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   // ホームページ以外では常にナビゲーションバーを表示
   useEffect(() => {
     if (!isHomePage) {

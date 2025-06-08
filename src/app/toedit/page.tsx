@@ -24,13 +24,13 @@ const ToEditPage = () => {
         <img
           src='/editRank.png'
           alt='ランク説明'
-          className='w-full max-w-4xl rounded-xl shadow-sm object-contain bg-white p-2'
+          className='w-full max-w-4xl rounded-xl shadow-md object-contain bg-white p-2'
         />
       </div>
       <p className='text-center text-gray-500 mb-8 text-base'>
         鶴舞こあらwikiでは、みんなの活躍に合わせて4つの可愛いランクがあるよ！
         <br />
-        どの役割も大切な仲間です♡
+        どの役割も大切な仲間です✨
       </p>
       <div className='overflow-x-auto mb-12'>
         <h3 className='font-semibold text-lg mb-3 tracking-wide'>
@@ -40,16 +40,13 @@ const ToEditPage = () => {
           <img
             src='/cmsUI.png'
             alt='独自CMS UI'
-            className='w-full max-w-4xl rounded-xl shadow-sm object-contain bg-white p-2'
+            className='w-full max-w-4xl rounded-xl shadow-md object-contain bg-white p-2'
           />
         </div>
         <p className='text-base text-gray-700'>
-          <span role='img' aria-label='cms'>
-            📝
-          </span>{" "}
           <b className='font-semibold'>オリジナルCMS</b>で、
           <br />
-          ページの作成・編集・タグ付けも直感的にできるから、
+          作成・編集・タグ付けも直感的にできて
           <br />
           初めての人でも安心して使えるよ！
         </p>
@@ -62,19 +59,14 @@ const ToEditPage = () => {
           <img
             src='/dashboard.png'
             alt='管理者ダッシュボード'
-            className='w-full max-w-4xl rounded-xl shadow-sm object-contain bg-white p-2'
+            className='w-full max-w-4xl rounded-xl shadow-md object-contain bg-white p-2'
           />
         </div>
         <p className='mb-6 text-base text-gray-700'>
-          <span role='img' aria-label='dashboard'>
-            📊
-          </span>{" "}
-          <b className='font-semibold'>
-            管理者だけが見れる特別なダッシュボード
-          </b>
+          <b className='font-semibold'>管理者だけが見れるダッシュボード</b>
           で、
           <br />
-          サイト全体の統計やユーザー管理ができちゃうよ！
+          サイト全体の統計やユーザー管理が可能に！
         </p>
       </div>
       <div className='bg-pink-100 rounded-xl py-6 px-4 text-center mb-4'>
@@ -91,9 +83,9 @@ const ToEditPage = () => {
           >
             Twitter（@nitech_citizen）
           </a>
-          までお気軽にどうぞ！
+          までお気軽に！
           <br />
-          みんなの参加をお待ちしてます♡
+          みんなの参加をお待ちしてます✨
         </p>
       </div>
     </motion.div>
