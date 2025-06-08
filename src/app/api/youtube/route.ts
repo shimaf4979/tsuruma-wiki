@@ -3,6 +3,9 @@ import { NextResponse } from "next/server";
 
 const youtube = google.youtube("v3");
 
+// キャッシュの設定
+export const revalidate = 3600; // 1時間に延長
+
 export async function GET() {
   try {
     const response = await youtube.search.list({
@@ -10,11 +13,15 @@ export async function GET() {
       channelId: "UCK87kJ7mnqAjVZGPMx_xHsw", // 鶴舞こあらのチャンネルID
       part: ["snippet"],
       order: "date",
-      maxResults: 50,
+      maxResults: 20,
       type: ["video"],
     });
 
-    const videos = response.data.items?.map((item) => ({
+    if (!response.data.items) {
+      return NextResponse.json({ videos: [] });
+    }
+
+    const videos = response.data.items.map((item) => ({
       id: item.id?.videoId,
       title: item.snippet?.title,
       description: item.snippet?.description,
@@ -23,10 +30,23 @@ export async function GET() {
     }));
 
     return NextResponse.json({ videos });
-  } catch (error) {
+  } catch (error: unknown) {
+    const errorObject = error as { code?: number; message?: string };
     console.error("YouTube API Error:", error);
+
+    // クォータ制限エラーの場合
+    if (errorObject.code === 403 && errorObject.message?.includes("quota")) {
+      return NextResponse.json(
+        {
+          error:
+            "YouTube APIのクォータ制限に達しました。しばらく時間をおいて再度お試しください。",
+        },
+        { status: 429 }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Failed to fetch videos" },
+      { error: "動画の取得に失敗しました" },
       { status: 500 }
     );
   }

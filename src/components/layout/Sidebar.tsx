@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  BookOpen,
+  Edit,
   TrendingUp,
   Clock,
   Tag,
@@ -12,6 +12,7 @@ import {
   X,
   MessageCircle,
   PlusCircle,
+  Video,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useUIStore } from "../../store";
@@ -62,8 +63,9 @@ export function Sidebar() {
 
   const menuItems = [
     { icon: Users, label: "鶴舞こあらとは", href: "/about" },
-    { icon: BookOpen, label: "全ページ", href: "/pages" },
-    { icon: TrendingUp, label: "人気ページ", href: "/pages?sort=popular" },
+    { icon: Edit, label: "編集するには", href: "/toedit" },
+    { icon: Video, label: "最新の配信", href: "/stream" },
+    { icon: TrendingUp, label: "ページ一覧へ", href: "/pages?sort=popular" },
     // { icon: Users, label: "編集者一覧", href: "/contributors" },
     { icon: MessageCircle, label: "お問い合わせ", href: "/contact" },
   ];

@@ -4,15 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Menu,
-  Search,
-  User,
-  LogOut,
-  Settings,
-  PlusCircle,
-  Bell,
-} from "lucide-react";
+import { Menu, Search, User, LogOut, Settings, Bell } from "lucide-react";
 import { useAuthStore, useUIStore } from "../../store";
 import { SearchModal } from "../ui/SearchModal";
 
@@ -46,8 +38,8 @@ export function Navbar() {
 
   const navItems = [
     { href: "/about", label: "鶴舞こあらとは" },
+    { href: "/stream", label: "最新の配信" },
     { href: "/pages", label: "ページ一覧" },
-    { href: "/editor", label: "新規作成", icon: PlusCircle },
   ];
 
   return (
@@ -93,7 +85,6 @@ export function Navbar() {
                   href={item.href}
                   className='px-3 py-2 rounded-lg text-sm font-medium text-koala-700 hover:bg-koala-100 hover:text-koala-900 transition-colors flex items-center space-x-1'
                 >
-                  {item.icon && <item.icon className='w-4 h-4' />}
                   <span>{item.label}</span>
                 </Link>
               ))}

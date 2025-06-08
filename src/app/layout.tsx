@@ -40,12 +40,12 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "鶴舞こあらWiki",
-    description: "みんなで作る鶴舞こあらの情報Wiki",
-    images: ["/home.png"],
-  },
+  // twitter: {
+  //   card: "summary_large_image",
+  //   title: "鶴舞こあらWiki",
+  //   description: "みんなで作る鶴舞こあらの情報Wiki",
+  //   images: ["/home.png"],
+  // },
 };
 
 export default function RootLayout({

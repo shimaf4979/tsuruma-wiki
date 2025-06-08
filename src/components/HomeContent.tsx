@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Video } from "lucide-react";
 import { YouTubeVideos } from "./YouTubeVideos";
+import Link from "next/link";
 
 export function HomeContent() {
   const [isWiggle, setIsWiggle] = useState(false);
@@ -15,7 +16,7 @@ export function HomeContent() {
       className='min-h-screen bg-white'
     >
       {/* ヒーローセクション */}
-      <section className='relative bg-gradient-to-b from-white to-gray-50 pt-4 pb-4'>
+      <section className='relative bg-gradient-to-b from-white to-gray-50 pt-4 '>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center'>
             <motion.div
@@ -25,7 +26,7 @@ export function HomeContent() {
               className=''
             >
               <div
-                className='relative h-60 md:h-80 block mx-auto rounded-lg mb-4 overflow-hidden'
+                className='relative h-60 md:h-80 block mx-auto rounded-lg  overflow-hidden'
                 style={{
                   backgroundImage: "url('/coala-only.jpg')",
                   backgroundSize: "cover",
@@ -35,7 +36,7 @@ export function HomeContent() {
                 <motion.img
                   src='/tsuruma.webp'
                   alt='鶴舞こあら'
-                  className='h-full mb-4 w-auto mx-auto relative z-10 cursor-pointer'
+                  className='h-full w-auto mx-auto relative z-10 cursor-pointer'
                   style={{ display: "block", margin: "0 auto" }}
                   animate={
                     isWiggle
@@ -55,24 +56,10 @@ export function HomeContent() {
                   }}
                 />
               </div>
-              <p className='text-xl md:text-2xl text-koala-600 mb-2 font-medium mt-4'>
+              <p className='text-xl md:text-2xl text-koala-600 mb-2 font-medium mt-6'>
                 みんなで作る鶴舞こあらの非公式wiki
               </p>
-              <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-                {/* <Link
-                  href='/pages'
-                  className='btn-primary text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center bg-primary-500 hover:bg-primary-600 text-white'
-                >
-                  <BookOpen className='w-5 h-5 mr-2' />
-                  ページを読む
-                </Link>
-                <Link
-                  href='/editor'
-                  className='btn-outline text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border-2 border-primary-500 text-primary-600 hover:bg-primary-50'
-                >
-                  ページを作成
-                </Link> */}
-              </div>
+              <div className='flex flex-col sm:flex-row gap-4 justify-center'></div>
             </motion.div>
           </div>
         </div>
@@ -90,15 +77,17 @@ export function HomeContent() {
             >
               <h2 className='text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3'>
                 <Video className='w-8 h-8 text-primary-500' />
-                <span className='relative font-["Mochiy_Pop_One"] text-primary-600 text-xl tracking-wider'>
-                  最新の配信
-                  <motion.div
-                    className='absolute -bottom-2 left-0 w-full h-1 bg-primary-500 rounded-full'
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                  />
-                </span>
+                <Link href='/stream'>
+                  <div className='relative font-["Mochiy_Pop_One"] text-primary-600 text-xl tracking-wider cursor-pointer inline-block'>
+                    最新の配信へ
+                    <motion.div
+                      className='absolute -bottom-2 left-0 w-full h-1 bg-primary-500 rounded-full'
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                    />
+                  </div>
+                </Link>
               </h2>
             </motion.div>
           </div>
