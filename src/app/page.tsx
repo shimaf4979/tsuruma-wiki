@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, BookOpen } from "lucide-react";
-import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import { useUIStore } from "../store";
+import { HomeContent } from "../components/HomeContent";
 
 export default function HomePage() {
   const [showHome, setShowHome] = useState(false);
@@ -346,58 +346,5 @@ export default function HomePage() {
         )}
       </AnimatePresence>
     </div>
-  );
-}
-
-function HomeContent() {
-  return (
-    <motion.div
-      key='home'
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.1 }}
-      className='min-h-screen bg-white'
-    >
-      {/* ヒーローセクション */}
-      <section className='relative bg-gradient-to-b from-white to-gray-50 pt-4 pb-20'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='text-center'>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.1, delay: 0.2 }}
-              className='mb-8'
-            >
-              {/* <h1 className='text-4xl md:text-6xl font-bold text-koala-900 mb-6 tracking-tight'>
-                鶴舞こあら 非公式Wiki
-              </h1> */}
-              <img
-                src='/tsuruma.webp'
-                alt='鶴舞こあら'
-                className='h-100 block mx-auto rounded-lg mb-8 transform hover:scale-105 transition-transform duration-300'
-              />
-              <p className='text-xl md:text-2xl text-koala-600 mb-10 font-medium'>
-                みんなで作る鶴舞こあらの情報サイト
-              </p>
-              <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-                <Link
-                  href='/pages'
-                  className='btn-primary text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center bg-primary-500 hover:bg-primary-600 text-white'
-                >
-                  <BookOpen className='w-5 h-5 mr-2' />
-                  ページを読む
-                </Link>
-                <Link
-                  href='/editor'
-                  className='btn-outline text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border-2 border-primary-500 text-primary-600 hover:bg-primary-50'
-                >
-                  ページを作成
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-    </motion.div>
   );
 }

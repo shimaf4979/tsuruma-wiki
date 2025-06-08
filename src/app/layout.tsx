@@ -1,4 +1,6 @@
 import { Noto_Sans_JP } from "next/font/google";
+import { Inter } from "next/font/google";
+import { Mochiy_Pop_One } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./Providers";
@@ -7,6 +9,13 @@ import { AppLayout } from "./AppLayoutClient";
 // フォントの設定
 const notoSansJP = Noto_Sans_JP({
   weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const inter = Inter({ subsets: ["latin"] });
+const mochiyPopOne = Mochiy_Pop_One({
+  weight: "400",
   subsets: ["latin"],
   display: "swap",
 });
@@ -46,7 +55,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='ja'>
-      <body className={`min-h-screen bg-white ${notoSansJP.className}`}>
+      <body
+        className={`min-h-screen bg-white ${notoSansJP.className} ${inter.className} ${mochiyPopOne.className}`}
+      >
         <Providers>
           <AppLayout>{children}</AppLayout>
         </Providers>

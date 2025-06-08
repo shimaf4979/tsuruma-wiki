@@ -78,7 +78,7 @@ export function Navbar() {
                 className='flex items-center space-x-2 hover:opacity-80 transition-opacity'
               >
                 <img
-                  src='/home.png'
+                  src='/b2.webp'
                   alt='鶴舞こあら Wiki'
                   className='w-32 sm:w-36 md:w-40 h-auto'
                 />
