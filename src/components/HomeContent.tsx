@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { BookOpen, Video } from "lucide-react";
-import Link from "next/link";
+import { Video } from "lucide-react";
 import { YouTubeVideos } from "./YouTubeVideos";
 
 export function HomeContent() {
