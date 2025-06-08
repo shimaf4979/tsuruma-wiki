@@ -33,7 +33,7 @@ const ToEditPage = () => {
         どの役割も大切な仲間です✨
       </p>
       <div className='overflow-x-auto mb-12'>
-        <h3 className='font-semibold text-lg mb-3 tracking-wide'>
+        <h3 className='font-medium text-lg mb-3 tracking-wide'>
           独自CMSでページ編集も楽々♪
         </h3>
         <div className='flex justify-center mb-3'>
@@ -44,7 +44,7 @@ const ToEditPage = () => {
           />
         </div>
         <p className='text-base text-gray-700'>
-          <b className='font-semibold'>オリジナルCMS</b>で、
+          <b className='font-medium'>オリジナルCMS</b>で、
           <br />
           作成・編集・タグ付けも直感的にできて
           <br />
@@ -52,7 +52,7 @@ const ToEditPage = () => {
         </p>
       </div>
       <div className='mb-12'>
-        <h3 className='font-semibold text-lg mb-3 tracking-wide'>
+        <h3 className='font-medium text-lg mb-3 tracking-wide'>
           管理者ダッシュボードも可愛い！
         </h3>
         <div className='flex justify-center mb-3'>
@@ -63,23 +63,23 @@ const ToEditPage = () => {
           />
         </div>
         <p className='mb-6 text-base text-gray-700'>
-          <b className='font-semibold'>管理者だけが見れるダッシュボード</b>
+          <b className='font-medium'>管理者だけが見れるダッシュボード</b>
           で、
           <br />
           サイト全体の統計やユーザー管理が可能に！
         </p>
       </div>
       <div className='bg-pink-100 rounded-xl py-6 px-4 text-center mb-4'>
-        <span className='text-lg font-semibold'>🌸 ランク承認のご案内 🌸</span>
+        <span className='text-lg font-medium'>🌸 ランク承認のご案内 🌸</span>
         <p className='mt-3 text-base'>
           ランクアップや編集権限の申請は、
           <br />
-          <b className='font-semibold'>お問い合わせフォーム</b>または
+          <b className='font-medium'>お問い合わせフォーム</b>または
           <a
             href='https://twitter.com/nitech_citizen'
             target='_blank'
             rel='noopener noreferrer'
-            className='text-sky-500 font-semibold ml-1 hover:underline'
+            className='text-sky-500 font-medium ml-1 hover:underline'
           >
             Twitter（@nitech_citizen）
           </a>

@@ -179,7 +179,7 @@ export default function AdminPage() {
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
           {/* クイックアクション */}
           <div>
-            <h2 className='text-xl font-semibold text-foreground mb-4'>
+            <h2 className='text-xl font-medium text-foreground mb-4'>
               クイックアクション
             </h2>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
@@ -225,7 +225,7 @@ export default function AdminPage() {
 
           {/* 承認待ちページ */}
           <div>
-            <h2 className='text-xl font-semibold text-foreground mb-4 flex items-center'>
+            <h2 className='text-xl font-medium text-foreground mb-4 flex items-center'>
               承認待ちページ
               {pendingPages && pendingPages.length > 0 && (
                 <span className='ml-2 inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-medium bg-destructive/10 text-destructive'>
@@ -293,7 +293,7 @@ export default function AdminPage() {
         {/* 人気ページ */}
         {stats?.topPages && stats.topPages.length > 0 && (
           <div className='mt-8'>
-            <h2 className='text-xl font-semibold text-foreground mb-4'>
+            <h2 className='text-xl font-medium text-foreground mb-4'>
               人気ページ Top 5
             </h2>
             <div className='rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-4'>

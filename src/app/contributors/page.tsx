@@ -365,7 +365,7 @@ export default function ContributorsPage() {
                           {/* 基本情報 */}
                           <div className='flex-1 min-w-0'>
                             <div className='flex items-center space-x-2 mb-1'>
-                              <h3 className='font-semibold text-koala-900 truncate'>
+                              <h3 className='font-medium text-koala-900 truncate'>
                                 {contributor.nickname}
                               </h3>
                               {contributor.role === "admin" && (
@@ -402,7 +402,7 @@ export default function ContributorsPage() {
                             <div className='flex items-center justify-center mb-1'>
                               <BookOpen className='w-4 h-4 text-koala-400 mr-1' />
                             </div>
-                            <div className='text-lg font-semibold text-koala-900'>
+                            <div className='text-lg font-medium text-koala-900'>
                               {contributor.pageCount}
                             </div>
                             <div className='text-xs text-koala-500'>ページ</div>
@@ -412,7 +412,7 @@ export default function ContributorsPage() {
                             <div className='flex items-center justify-center mb-1'>
                               <MessageCircle className='w-4 h-4 text-koala-400 mr-1' />
                             </div>
-                            <div className='text-lg font-semibold text-koala-900'>
+                            <div className='text-lg font-medium text-koala-900'>
                               {contributor.commentCount}
                             </div>
                             <div className='text-xs text-koala-500'>
@@ -424,7 +424,7 @@ export default function ContributorsPage() {
                             <div className='flex items-center justify-center mb-1'>
                               <TrendingUp className='w-4 h-4 text-koala-400 mr-1' />
                             </div>
-                            <div className='text-lg font-semibold text-koala-900'>
+                            <div className='text-lg font-medium text-koala-900'>
                               {contributor.totalViews.toLocaleString()}
                             </div>
                             <div className='text-xs text-koala-500'>閲覧</div>
@@ -494,7 +494,7 @@ export default function ContributorsPage() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className='mt-12'
         >
-          <h3 className='text-xl font-semibold text-koala-900 mb-6 text-center'>
+          <h3 className='text-xl font-medium text-koala-900 mb-6 text-center'>
             編集者の役割について
           </h3>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
@@ -516,7 +516,7 @@ export default function ContributorsPage() {
                     >
                       <Icon className='w-5 h-5' />
                     </div>
-                    <h4 className='font-semibold text-koala-900'>
+                    <h4 className='font-medium text-koala-900'>
                       {config.label}
                     </h4>
                   </div>

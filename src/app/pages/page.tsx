@@ -222,7 +222,7 @@ export default function PagesPage() {
                     >
                       <Link href={`/wiki/${page.id}`} className='block'>
                         <div className='card hover:shadow-lg transition-all duration-300 h-full bg-white/50 backdrop-blur-sm border border-koala-100 rounded-2xl p-6 group'>
-                          <h3 className='text-lg font-semibold text-koala-900 mb-4 line-clamp-2 group-hover:text-primary-600 transition-colors'>
+                          <h3 className='text-lg font-medium text-koala-900 mb-4 line-clamp-2 group-hover:text-primary-600 transition-colors'>
                             {page.title}
                           </h3>
 
@@ -297,7 +297,7 @@ export default function PagesPage() {
                         <div className='card hover:shadow-lg transition-all duration-300 bg-white/50 backdrop-blur-sm border border-koala-100 rounded-2xl p-6 group'>
                           <div className='flex items-start justify-between'>
                             <div className='flex-1 min-w-0'>
-                              <h3 className='text-lg font-semibold text-koala-900 mb-4 group-hover:text-primary-600 transition-colors'>
+                              <h3 className='text-lg font-medium text-koala-900 mb-4 group-hover:text-primary-600 transition-colors'>
                                 {page.title}
                               </h3>
 
@@ -369,7 +369,7 @@ export default function PagesPage() {
           ) : (
             <div className='text-center py-12'>
               <BookOpen className='w-16 h-16 text-koala-300 mx-auto mb-4' />
-              <h3 className='text-lg font-semibold text-koala-700 mb-2'>
+              <h3 className='text-lg font-mediumt-koala-700 mb-2'>
                 ページが見つかりませんでした
               </h3>
               <p className='text-koala-500 mb-4'>

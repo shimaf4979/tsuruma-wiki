@@ -192,7 +192,7 @@ export function UserPageClient({ userId }: UserPageClientProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.1, delay: 0.02 }}
         >
-          <h2 className='text-lg sm:text-xl font-semibold text-koala-900 mb-4 sm:mb-6'>
+          <h2 className='text-lg sm:text-xl font-medium text-koala-900 mb-4 sm:mb-6'>
             投稿したページ
           </h2>
 

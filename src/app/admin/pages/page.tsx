@@ -485,7 +485,7 @@ export default function AdminPagesPage() {
           ) : (
             <div className='text-center py-12'>
               <AlertCircle className='w-16 h-16 text-muted-foreground mx-auto mb-4' />
-              <h3 className='text-lg font-semibold text-foreground mb-2'>
+              <h3 className='text-lg font-medium text-foreground mb-2'>
                 {filters.status === "draft"
                   ? "承認待ちのページはありません"
                   : "ページが見つかりませんでした"}

@@ -50,7 +50,7 @@ export function YouTubeVideos() {
   if (error) {
     return (
       <div className='text-center text-red-500 p-4'>
-        <p className='font-semibold mb-2'>エラーが発生しました</p>
+        <p className='font-medium mb-2'>エラーが発生しました</p>
         <p className='text-sm'>{error}</p>
       </div>
     );

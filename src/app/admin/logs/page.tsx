@@ -464,7 +464,7 @@ export default function AdminLogsPage() {
           ) : (
             <div className='text-center py-12'>
               <BarChart3 className='w-16 h-16 text-muted-foreground mx-auto mb-4' />
-              <h3 className='text-lg font-semibold text-foreground mb-2'>
+              <h3 className='text-lg font-medium text-foreground mb-2'>
                 ログエントリが見つかりませんでした
               </h3>
               <p className='text-muted-foreground mb-4'>
@@ -497,7 +497,7 @@ export default function AdminLogsPage() {
             className='mt-8'
           >
             <div className='card'>
-              <h3 className='text-lg font-semibold text-foreground mb-4'>
+              <h3 className='text-lg font-medium text-foreground mb-4'>
                 直近のアクティビティ統計
               </h3>
               <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>

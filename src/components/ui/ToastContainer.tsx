@@ -94,7 +94,7 @@ export function ModalContainer() {
             exit={{ scale: 0.9, opacity: 0 }}
             className='relative bg-white rounded-lg shadow-xl max-w-md w-full mx-4 p-6'
           >
-            <h3 className='text-lg font-semibold text-koala-900 mb-4'>
+            <h3 className='text-lg font-medium text-koala-900 mb-4'>
               {modal.title}
             </h3>
             <div className='mb-6'>{modal.content}</div>

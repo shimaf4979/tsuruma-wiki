@@ -290,7 +290,7 @@ export function WikiPageClient({ pageId }: WikiPageClientProps) {
           [&_hr]:my-6 sm:[&_hr]:my-8 [&_hr]:border-koala-200
           [&_table]:w-full [&_table]:border-collapse [&_table]:my-3 sm:[&_table]:my-4 [&_table]:rounded-lg [&_table]:overflow-hidden [&_table]:shadow-sm
           [&_thead]:bg-primary-50
-          [&_th]:border [&_th]:border-koala-300 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_th]:text-left [&_th]:bg-primary-50/50 [&_th]:text-primary-900 [&_th]:font-semibold [&_th]:text-sm sm:[&_th]:text-base
+          [&_th]:border [&_th]:border-koala-300 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_th]:text-left [&_th]:bg-primary-50/50 [&_th]:text-primary-900 [&_th]:font-medium [&_th]:text-sm sm:[&_th]:text-base
           [&_td]:border [&_td]:border-koala-300 [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_td]:text-sm sm:[&_td]:text-base
           [&_div]:mb-3 sm:[&_div]:mb-4
           [&_ul>li::marker]:text-primary-500

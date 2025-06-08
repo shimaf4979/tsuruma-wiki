@@ -135,7 +135,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 {/* 最近の検索 */}
                 {recentSearches.length > 0 && (
                   <div className='mb-6'>
-                    <h3 className='text-sm font-semibold text-koala-700 mb-3 flex items-center'>
+                    <h3 className='text-sm font-mediumext-koala-700 mb-3 flex items-center'>
                       <Clock className='w-4 h-4 mr-2' />
                       最近の検索
                     </h3>
@@ -156,7 +156,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
                 {/* 検索のヒント */}
                 <div>
-                  <h3 className='text-sm font-semibold text-koala-700 mb-3 flex items-center'>
+                  <h3 className='text-sm font-medium text-koala-700 mb-3 flex items-center'>
                     <TrendingUp className='w-4 h-4 mr-2' />
                     検索のヒント
                   </h3>
@@ -181,7 +181,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
               suggestions.length > 0 &&
               query.length > 0 && (
                 <div className='p-4 border-b border-koala-200'>
-                  <h3 className='text-sm font-semibold text-koala-700 mb-3'>
+                  <h3 className='text-sm font-medium text-koala-700 mb-3'>
                     検索候補
                   </h3>
                   <div className='space-y-1'>
@@ -212,7 +212,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     {/* ページ結果 */}
                     {searchResults.pages && searchResults.pages.length > 0 && (
                       <div>
-                        <h3 className='text-sm font-semibold text-koala-700 mb-3 flex items-center'>
+                        <h3 className='text-sm font-medium text-koala-700 mb-3 flex items-center'>
                           <FileText className='w-4 h-4 mr-2' />
                           ページ ({searchResults.pages.length}件)
                         </h3>
@@ -264,7 +264,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     {/* ユーザー結果 */}
                     {searchResults.users && searchResults.users.length > 0 && (
                       <div>
-                        <h3 className='text-sm font-semibold text-koala-700 mb-3 flex items-center'>
+                        <h3 className='text-sm font-medium text-koala-700 mb-3 flex items-center'>
                           <User className='w-4 h-4 mr-2' />
                           ユーザー ({searchResults.users.length}件)
                         </h3>

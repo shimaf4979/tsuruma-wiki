@@ -57,7 +57,7 @@ export function HomeContent() {
                   }}
                 />
               </div>
-              <p className='text-xl md:text-2xl text-koala-600 mb-2 font-medium mt-6'>
+              <p className='text-xl md:text-2xl text-koala-600 mb-8 font-medium mt-6'>
                 みんなで作る鶴舞こあらの非公式wiki
               </p>
               <div className='flex flex-col sm:flex-row gap-4 justify-center'></div>
@@ -67,7 +67,7 @@ export function HomeContent() {
       </section>
 
       {/* YouTube動画セクション */}
-      <section className='py-2 bg-gray-50'>
+      <section className='py-4 '>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-4'>
             <motion.div

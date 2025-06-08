@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
-import { LoadingImages } from "./ui/LoadingImages";
 
 interface Video {
   id: string;
@@ -12,10 +11,6 @@ interface Video {
 }
 
 export const StreamList: React.FC<{ videos: Video[] }> = ({ videos }) => {
-  if (!videos) {
-    return <LoadingImages />;
-  }
-
   if (videos.length === 0) {
     return (
       <div className='text-center text-gray-500 p-4'>
@@ -27,11 +22,11 @@ export const StreamList: React.FC<{ videos: Video[] }> = ({ videos }) => {
   return (
     <div className='relative'>
       {/* スマートフォン表示用の横スクロール */}
-      <div className='md:hidden relative'>
+      <div className='md:hidden relative pb-4'>
         <div className='absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none -translate-x-4'></div>
         <div className='absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none translate-x-4'></div>
         <div className='overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide'>
-          <div className='flex gap-4 w-[calc(100vw-2rem)]'>
+          <div className='flex gap-4 w-[calc(100vw-2rem)] py-4'>
             {videos.map((video) => (
               <motion.div
                 key={video.id}
@@ -42,7 +37,7 @@ export const StreamList: React.FC<{ videos: Video[] }> = ({ videos }) => {
                   y: -8,
                   transition: { duration: 0.2 },
                 }}
-                className='group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 flex-shrink-0'
+                className='group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300'
                 style={{ width: "280px" }}
               >
                 <a
@@ -51,7 +46,7 @@ export const StreamList: React.FC<{ videos: Video[] }> = ({ videos }) => {
                   rel='noopener noreferrer'
                   className='block relative'
                 >
-                  <div className='relative pb-[56.25%] overflow-hidden'>
+                  <div className='relative pb-[56.25%] overflow-hidden rounded-t-2xl'>
                     <img
                       src={video.thumbnailUrl}
                       alt={video.title}
@@ -67,7 +62,7 @@ export const StreamList: React.FC<{ videos: Video[] }> = ({ videos }) => {
                     </div>
                   </div>
                   <div className='p-4'>
-                    <h3 className='text-base font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors duration-300'>
+                    <h3 className='text-base font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors duration-300'>
                       {video.title}
                     </h3>
                     <p className='text-xs text-gray-500 flex items-center'>
@@ -87,7 +82,7 @@ export const StreamList: React.FC<{ videos: Video[] }> = ({ videos }) => {
       </div>
 
       {/* タブレット・デスクトップ表示用のグリッド */}
-      <div className='hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
+      <div className='hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 py-4'>
         {videos.map((video) => (
           <motion.div
             key={video.id}
@@ -98,7 +93,7 @@ export const StreamList: React.FC<{ videos: Video[] }> = ({ videos }) => {
               y: -8,
               transition: { duration: 0.05 },
             }}
-            className='group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300'
+            className='group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300'
           >
             <a
               href={`https://www.youtube.com/watch?v=${video.id}`}
@@ -106,7 +101,7 @@ export const StreamList: React.FC<{ videos: Video[] }> = ({ videos }) => {
               rel='noopener noreferrer'
               className='block relative'
             >
-              <div className='relative pb-[56.25%] overflow-hidden'>
+              <div className='relative pb-[56.25%] overflow-hidden rounded-t-2xl'>
                 <img
                   src={video.thumbnailUrl}
                   alt={video.title}
@@ -122,7 +117,7 @@ export const StreamList: React.FC<{ videos: Video[] }> = ({ videos }) => {
                 </div>
               </div>
               <div className='p-5'>
-                <h3 className='text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors duration-300'>
+                <h3 className='text-lg font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors duration-300'>
                   {video.title}
                 </h3>
                 <p className='text-sm text-gray-500 flex items-center'>

@@ -49,7 +49,7 @@ export function ModalContainer() {
             <div className='flex items-center justify-between p-4 sm:p-5 border-b border-koala-200 bg-koala-50'>
               <div className='flex items-center space-x-3'>
                 {getIcon(modal.type)}
-                <h3 className='text-lg font-semibold text-koala-900'>
+                <h3 className='text-lg font-medium text-koala-900'>
                   {modal.title}
                 </h3>
               </div>

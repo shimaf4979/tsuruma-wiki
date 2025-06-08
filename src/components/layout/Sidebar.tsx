@@ -124,7 +124,7 @@ export function Sidebar() {
 
               {/* メインメニュー */}
               <nav className='space-y-1 mb-8'>
-                <h3 className='text-xs font-semibold text-koala-500 uppercase tracking-wide mb-3'>
+                <h3 className='text-xs font-medium text-koala-500 uppercase tracking-wide mb-3'>
                   メニュー
                 </h3>
                 {menuItems.map((item) => (
@@ -147,7 +147,7 @@ export function Sidebar() {
 
               {/* 人気ページ */}
               <div className='mb-8'>
-                <h3 className='text-xs font-semibold text-koala-500 uppercase tracking-wide mb-3 flex items-center'>
+                <h3 className='text-xs font-medium text-koala-500 uppercase tracking-wide mb-3 flex items-center'>
                   <TrendingUp className='w-4 h-4 mr-1' />
                   人気ページ
                 </h3>
@@ -188,7 +188,7 @@ export function Sidebar() {
 
               {/* 最新ページ */}
               <div className='mb-8'>
-                <h3 className='text-xs font-semibold text-koala-500 uppercase tracking-wide mb-3 flex items-center'>
+                <h3 className='text-xs font-medium text-koala-500 uppercase tracking-wide mb-3 flex items-center'>
                   <Clock className='w-4 h-4 mr-1' />
                   最新ページ
                 </h3>
@@ -227,7 +227,7 @@ export function Sidebar() {
 
               {/* 人気タグ */}
               <div>
-                <h3 className='text-xs font-semibold text-koala-500 uppercase tracking-wide mb-3 flex items-center'>
+                <h3 className='text-xs font-medium text-koala-500 uppercase tracking-wide mb-3 flex items-center'>
                   <Tag className='w-4 h-4 mr-1' />
                   人気タグ
                 </h3>

@@ -441,7 +441,7 @@ export default function AdminUsersPage() {
           ) : (
             <div className='text-center py-12'>
               <Users className='w-16 h-16 text-muted-foreground mx-auto mb-4' />
-              <h3 className='text-lg font-semibold text-foreground mb-2'>
+              <h3 className='text-lg font-medium text-foreground mb-2'>
                 ユーザーが見つかりませんでした
               </h3>
               <p className='text-muted-foreground mb-4'>

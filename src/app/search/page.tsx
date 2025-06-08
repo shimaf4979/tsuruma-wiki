@@ -154,7 +154,7 @@ function SearchContent() {
                 searchResults.pages &&
                 searchResults.pages.length > 0 && (
                   <div>
-                    <h2 className='text-xl font-semibold text-koala-900 mb-4 flex items-center'>
+                    <h2 className='text-xl font-medium text-koala-900 mb-4 flex items-center'>
                       <FileText className='w-5 h-5 mr-2' />
                       ページ ({searchResults.pages.length}件)
                     </h2>
@@ -213,7 +213,7 @@ function SearchContent() {
                 searchResults.users &&
                 searchResults.users.length > 0 && (
                   <div>
-                    <h2 className='text-xl font-semibold text-koala-900 mb-4 flex items-center'>
+                    <h2 className='text-xl font-medium text-koala-900 mb-4 flex items-center'>
                       <User className='w-5 h-5 mr-2' />
                       ユーザー ({searchResults.users.length}件)
                     </h2>
