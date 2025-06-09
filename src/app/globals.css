@@ -297,3 +297,36 @@
     -webkit-line-clamp: 3;
   }
 }
+
+@keyframes dot1 {
+  0%,
+  20% {
+    opacity: 0;
+  }
+  40%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dot2 {
+  0%,
+  40% {
+    opacity: 0;
+  }
+  60%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dot3 {
+  0%,
+  60% {
+    opacity: 0;
+  }
+  80%,
+  100% {
+    opacity: 1;
+  }
+}

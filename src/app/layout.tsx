@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./Providers";
 import { AppLayout } from "./AppLayoutClient";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 // フォントの設定
 const notoSansJP = Noto_Sans_JP({
@@ -61,6 +62,7 @@ export default function RootLayout({
         <Providers>
           <AppLayout>{children}</AppLayout>
         </Providers>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
       </body>
     </html>
   );

@@ -33,7 +33,14 @@ export const LoadingImages = () => {
           />
         </motion.div>
       ))}
-      <span className='ml-4 text-gray-500'>読み込み中...</span>
+      <span className='ml-4 text-gray-500'>
+        読み込み中
+        <span className='inline-flex'>
+          <span className='animate-[dot1_1.4s_infinite]'>.</span>
+          <span className='animate-[dot2_1.4s_infinite]'>.</span>
+          <span className='animate-[dot3_1.4s_infinite]'>.</span>
+        </span>
+      </span>
     </div>
   );
 };

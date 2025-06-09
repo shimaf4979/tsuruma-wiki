@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { LoadingImages } from "@/components/ui/LoadingImages";
 
 const ToEditPage = () => {
   return (
@@ -28,8 +29,6 @@ const ToEditPage = () => {
         />
       </div>
       <p className='text-center text-gray-500 mb-8 text-base'>
-        鶴舞こあらwikiでは、みんなの活躍に合わせて4つの可愛いランクがあるよ！
-        <br />
         どの役割も大切な仲間です✨
       </p>
       <div className='overflow-x-auto mb-12'>
@@ -69,6 +68,7 @@ const ToEditPage = () => {
           サイト全体の統計やユーザー管理が可能に！
         </p>
       </div>
+      <LoadingImages />
       <div className='bg-pink-100 rounded-xl py-6 px-4 text-center mb-4'>
         <span className='text-lg font-medium'>🌸 ランク承認のご案内 🌸</span>
         <p className='mt-3 text-base'>
