@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -20,6 +20,14 @@ import { wikiAPI } from "../../lib/api";
 import { LoadingImages } from "@/components/ui/LoadingImages";
 
 export default function PagesPage() {
+  return (
+    <Suspense fallback={<LoadingImages />}>
+      <PagesContent />
+    </Suspense>
+  );
+}
+
+function PagesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
