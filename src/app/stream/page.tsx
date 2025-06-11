@@ -13,7 +13,7 @@ export default function StreamPage() {
         <h2 className='text-3xl font-bold text-gray-900 flex items-center justify-center gap-3 mb-8'>
           <Video className='w-8 h-8 text-primary-500' />
 
-          <div className='relative font-["Mochiy_Pop_One"] text-primary-600 text-xl tracking-wider cursor-pointer inline-block'>
+          <div className='relative text-primary-600 text-xl tracking-wider cursor-pointer inline-block'>
             最新の配信
             <motion.div
               className='absolute -bottom-2 left-0 w-full h-1 bg-primary-500 rounded-full'

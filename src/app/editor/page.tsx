@@ -9,6 +9,8 @@ import { TiptapEditor } from "../../components/editor/TiptapEditor";
 import { wikiAPI } from "../../lib/api";
 import { useAuthStore, useUIStore, useEditorStore } from "../../store";
 
+const LOCAL_STORAGE_KEY = "tsuruma-wiki-draft";
+
 export default function EditorPage() {
   const router = useRouter();
   const { user, isAuthenticated, isInitialized } = useAuthStore();
@@ -20,6 +22,48 @@ export default function EditorPage() {
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
   const [isPreview, setIsPreview] = useState(false);
+
+  // ローカルストレージから下書きを読み込む
+  useEffect(() => {
+    const savedDraft = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (savedDraft) {
+      try {
+        const {
+          title: savedTitle,
+          content: savedContent,
+          tags: savedTags,
+        } = JSON.parse(savedDraft);
+        setTitle(savedTitle || "");
+        setContent(savedContent || "");
+        setTags(savedTags || []);
+        addToast({
+          type: "success",
+          title: "下書きを復元しました",
+        });
+      } catch (error) {
+        console.error("下書きの読み込みに失敗しました:", error);
+        addToast({
+          type: "error",
+          title: "下書きの復元に失敗しました",
+        });
+      }
+    }
+  }, [addToast]);
+
+  // 下書きをローカルストレージに保存
+  const saveToLocalStorage = () => {
+    const draft = {
+      title,
+      content,
+      tags,
+    };
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(draft));
+  };
+
+  // 下書きをクリア
+  const clearLocalStorage = () => {
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+  };
 
   // 認証チェック - 初期化完了後に実行
   useEffect(() => {
@@ -49,6 +93,7 @@ export default function EditorPage() {
     const interval = setInterval(() => {
       if (title.trim() || content.trim()) {
         saveDraft("auto", title, content, tags);
+        saveToLocalStorage(); // ローカルストレージにも保存
       }
     }, 5000);
 
@@ -67,6 +112,7 @@ export default function EditorPage() {
             : "承認待ちです",
       });
       clearCurrentDraft();
+      clearLocalStorage(); // ローカルストレージもクリア
       router.push(data.status === "published" ? `/wiki/${data.id}` : "/");
     },
     onError: (error: Error & { response?: { data?: { error?: string } } }) => {
@@ -99,6 +145,15 @@ export default function EditorPage() {
       title: title.trim(),
       content,
       tags,
+    });
+  };
+
+  // 手動保存ボタンのハンドラー
+  const handleSave = () => {
+    saveToLocalStorage();
+    addToast({
+      type: "success",
+      title: "下書きを保存しました",
     });
   };
 
@@ -147,6 +202,13 @@ export default function EditorPage() {
               ページを作成
             </h1>
             <div className='flex items-center space-x-2 sm:space-x-3'>
+              <button
+                onClick={handleSave}
+                className='btn-outline hover:bg-koala-50 transition-all duration-200 flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg border border-koala-200 text-koala-700 hover:text-koala-900 hover:border-koala-300 text-sm sm:text-base'
+              >
+                <Save className='w-4 h-4' />
+                <span>保存</span>
+              </button>
               <button
                 onClick={() => setIsPreview(!isPreview)}
                 className='btn-outline hover:bg-koala-50 transition-all duration-200 flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg border border-koala-200 text-koala-700 hover:text-koala-900 hover:border-koala-300 text-sm sm:text-base'
