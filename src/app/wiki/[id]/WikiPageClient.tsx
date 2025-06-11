@@ -166,7 +166,7 @@ export function WikiPageClient({ pageId }: WikiPageClientProps) {
         >
           <div className='flex items-start justify-between mb-6'>
             <div className='flex-1 min-w-0'>
-              <h1 className='text-2xl md:text-3xl  font-bold text-koala-900 mb-4'>
+              <h1 className='text-2xl md:text-3xl font-medium text-koala-900 mb-4'>
                 {page.title}
               </h1>
 
@@ -276,13 +276,13 @@ export function WikiPageClient({ pageId }: WikiPageClientProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.1, delay: 0.02 }}
           className='prose prose-sm sm:prose-base md:prose-lg max-w-none mb-12 
-          [&_h1]:text-2xl sm:[&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mt-8 sm:[&_h1]:mt-12 [&_h1]:mb-6 sm:[&_h1]:mb-8 [&_h1]:bg-gradient-to-r [&_h1]:from-primary-50 [&_h1]:to-transparent [&_h1]:text-primary-900 [&_h1]:px-4 sm:[&_h1]:px-6 [&_h1]:py-3 sm:[&_h1]:py-4 [&_h1]:rounded-r-lg [&_h1]:border-l-6 sm:[&_h1]:border-l-8 [&_h1]:border-primary-500 [&_h1]:w-full [&_h1]:shadow-sm
-          [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mt-8 sm:[&_h2]:mt-10 [&_h2]:mb-4 sm:[&_h2]:mb-6 [&_h2]:bg-gradient-to-r [&_h2]:from-koala-50 [&_h2]:to-transparent [&_h2]:text-koala-900 [&_h2]:px-3 sm:[&_h2]:px-5 [&_h2]:py-2 sm:[&_h2]:py-3 [&_h2]:rounded-r-md [&_h2]:border-l-4 sm:[&_h2]:border-l-6 [&_h2]:border-koala-400 [&_h2]:w-full [&_h2]:shadow-sm
-          [&_h3]:text-lg sm:[&_h3]:text-xl [&_h3]:font-bold [&_h3]:mt-6 sm:[&_h3]:mt-8 [&_h3]:mb-3 sm:[&_h3]:mb-4 [&_h3]:text-koala-800 [&_h3]:border-b-2 [&_h3]:border-koala-200 [&_h3]:pb-2 [&_h3]:w-full [&_h3]:bg-gradient-to-r [&_h3]:from-koala-50/30 [&_h3]:to-transparent
-          [&_p]:mb-3 sm:[&_p]:mb-4 [&_p]:leading-6 sm:[&_p]:leading-7
-          [&_ul]:list-disc [&_ul]:pl-4 sm:[&_ul]:pl-6 [&_ul]:mb-3 sm:[&_ul]:mb-4 [&_ul>li]:mb-1 sm:[&_ul>li]:mb-2
-          [&_ol]:list-decimal [&_ol]:pl-4 sm:[&_ol]:pl-6 [&_ol]:mb-3 sm:[&_ol]:mb-4 [&_ol>li]:mb-1 sm:[&_ol>li]:mb-2
-          [&_blockquote]:border-l-3 sm:[&_blockquote]:border-l-4 [&_blockquote]:pl-3 sm:[&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-koala-600 [&_blockquote]:my-3 sm:[&_blockquote]:my-4 [&_blockquote]:bg-primary-50/50 [&_blockquote]:rounded-r-lg [&_blockquote]:py-1 sm:[&_blockquote]:py-2
+          [&_h1]:text-2xl sm:[&_h1]:text-3xl [&_h1]:font-medium [&_h1]:mt-8 sm:[&_h1]:mt-12 [&_h1]:mb-6 sm:[&_h1]:mb-8 [&_h1]:bg-gradient-to-r [&_h1]:from-primary-50 [&_h1]:to-transparent [&_h1]:text-primary-900 [&_h1]:px-4 sm:[&_h1]:px-6 [&_h1]:py-3 sm:[&_h1]:py-4 [&_h1]:rounded-r-lg [&_h1]:border-l-6 sm:[&_h1]:border-l-8 [&_h1]:border-primary-500 [&_h1]:w-full [&_h1]:shadow-sm
+          [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h2]:font-medium [&_h2]:mt-8 sm:[&_h2]:mt-10 [&_h2]:mb-4 sm:[&_h2]:mb-6 [&_h2]:bg-gradient-to-r [&_h2]:from-koala-50 [&_h2]:to-transparent [&_h2]:text-koala-900 [&_h2]:px-3 sm:[&_h2]:px-5 [&_h2]:py-2 sm:[&_h2]:py-3 [&_h2]:rounded-r-md [&_h2]:border-l-4 sm:[&_h2]:border-l-6 [&_h2]:border-koala-400 [&_h2]:w-full [&_h2]:shadow-sm
+          [&_h3]:text-lg sm:[&_h3]:text-xl [&_h3]:font-medium [&_h3]:mt-6 sm:[&_h3]:mt-8 [&_h3]:mb-3 sm:[&_h3]:mb-4 [&_h3]:text-koala-800 [&_h3]:border-b-2 [&_h3]:border-koala-200 [&_h3]:pb-2 [&_h3]:w-full [&_h3]:bg-gradient-to-r [&_h3]:from-koala-50/30 [&_h3]:to-transparent
+          [&_p]:mb-3 sm:[&_p]:mb-4 [&_p]:leading-6 sm:[&_p]:leading-7 [&_p]:font-normal
+          [&_ul]:list-disc [&_ul]:pl-4 sm:[&_ul]:pl-6 [&_ul]:mb-3 sm:[&_ul]:mb-4 [&_ul>li]:mb-1 sm:[&_ul>li]:mb-2 [&_ul>li]:font-normal
+          [&_ol]:list-decimal [&_ol]:pl-4 sm:[&_ol]:pl-6 [&_ol]:mb-3 sm:[&_ol]:mb-4 [&_ol>li]:mb-1 sm:[&_ol>li]:mb-2 [&_ol>li]:font-normal
+          [&_blockquote]:border-l-3 sm:[&_blockquote]:border-l-4 [&_blockquote]:pl-3 sm:[&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-koala-600 [&_blockquote]:my-3 sm:[&_blockquote]:my-4 [&_blockquote]:bg-primary-50/50 [&_blockquote]:rounded-r-lg [&_blockquote]:py-1 sm:[&_blockquote]:py-2 [&_blockquote]:font-normal
           [&_pre]:bg-koala-900 [&_pre]:text-white [&_pre]:p-3 sm:[&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:my-2 sm:[&_pre]:my-3 [&_pre]:overflow-x-auto
           [&_code]:bg-koala-100 [&_code]:px-1 sm:[&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-xs sm:[&_code]:text-sm [&_code]:font-mono [&_code]:text-koala-900
           [&_a]:text-primary-600 [&_a]:hover:text-primary-700 [&_a]:underline [&_a]:decoration-primary-300 [&_a]:hover:decoration-primary-500 [&_a]:transition-colors [&_a]:duration-200
@@ -290,13 +290,18 @@ export function WikiPageClient({ pageId }: WikiPageClientProps) {
           [&_hr]:my-6 sm:[&_hr]:my-8 [&_hr]:border-koala-200
           [&_table]:w-full [&_table]:border-collapse [&_table]:my-3 sm:[&_table]:my-4 [&_table]:rounded-lg [&_table]:overflow-hidden [&_table]:shadow-sm
           [&_thead]:bg-primary-50
-          [&_th]:border [&_th]:border-koala-300 [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_th]:text-left [&_th]:bg-primary-50/50 [&_th]:text-primary-900 [&_th]:font-medium [&_th]:text-sm sm:[&_th]:text-base
-          [&_td]:border [&_td]:border-koala-300 [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_td]:text-sm sm:[&_td]:text-base
+          [&_th]:border [&_th]:px-2 sm:[&_th]:px-4 [&_th]:py-1 sm:[&_th]:py-2 [&_th]:text-left [&_th]:text-primary-900 [&_th]:font-medium [&_th]:text-sm sm:[&_th]:text-base
+          [&_td]:border [&_td]:px-2 sm:[&_td]:px-4 [&_td]:py-1 sm:[&_td]:py-2 [&_td]:text-sm sm:[&_td]:text-base [&_td]:font-normal
           [&_div]:mb-3 sm:[&_div]:mb-4
           [&_ul>li::marker]:text-primary-500
-          [&_ol>li::marker]:text-primary-500 [&_ol>li::marker]:font-medium
+          [&_ol>li::marker]:text-primary-500 [&_ol>li::marker]:font-normal
           [&_pre_code]:bg-transparent [&_pre_code]:text-white [&_pre_code]:p-0
-          [&_tbody_tr:hover]:bg-koala-50/50'
+          [&_tbody_tr:hover]:bg-koala-50/50
+          [&_table]:border [&_table]:border-koala-300 [&_table]:bg-white [&_table]:shadow-md [&_table]:hover:shadow-lg [&_table]:transition-shadow [&_table]:duration-200
+          [&_th]:bg-primary-50 [&_th]:text-primary-900 [&_th]:font-medium [&_th]:border-b-2 [&_th]:border-primary-300
+          [&_td]:bg-white [&_td]:text-koala-900 [&_td]:border-b [&_td]:border-koala-200 [&_td]:hover:bg-koala-50/30 [&_td]:transition-colors [&_td]:duration-150
+          [&_tr:last-child_td]:border-b-0 [&_tr:last-child_th]:border-b-0
+          [&_table_resize-handle]:bg-primary-500 [&_table_resize-handle]:w-1 [&_table_resize-handle]:h-full [&_table_resize-handle]:absolute [&_table_resize-handle]:right-0 [&_table_resize-handle]:top-0 [&_table_resize-handle]:cursor-col-resize [&_table_resize-handle]:opacity-0 [&_table_resize-handle]:hover:opacity-100 [&_table_resize-handle]:transition-opacity [&_table_resize-handle]:duration-150'
         >
           <div dangerouslySetInnerHTML={{ __html: page.content }} />
         </motion.article>
